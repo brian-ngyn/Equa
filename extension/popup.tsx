@@ -10,6 +10,9 @@ import {
 
 import { firebaseAuth, db } from "./firebase"
 import { getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
+import GoogleButton from "react-google-button";
+
+import logo from "data-base64:~assets/logo.png"
 
 setPersistence(firebaseAuth, browserLocalPersistence)
 
@@ -64,33 +67,59 @@ function IndexPopup() {
   }, [user])
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", padding: 16}}>
-      <h1>App</h1>
+    <div style={{ display: "flex", flexDirection: "column", padding: 16, textAlign:"center"}}>
+      <img src={logo} alt="logo"></img>
+      <h1 style={{
+        color:"#ffffff",
+        fontFamily: 'Fredoka One', 
+        fontSize:"64px", 
+        marginTop:"0", 
+        marginBottom:"30px"}}>
+          Equa
+      </h1>
       {!user ? (
-        <button
+        <GoogleButton
+          type="light"
           onClick={() => {
             setIsLoading(true)
             onLoginClicked()
           }}>
           Log in
-        </button>
+        </GoogleButton>
       ) : (
         <button
+          style={{
+            backgroundColor:"#3c1518", 
+            fontFamily:"Fredoka", 
+            color:"#ffffff", 
+            borderRadius:"20px", 
+            borderStyle:"hidden",
+            height:"45px",
+            cursor:"pointer"
+          }}
           onClick={() => {
-            setIsLoading(true)
-            onLogoutClicked()
+            window.open('http://google.com','_blank')
           }}>
-          Log out
+          View Dasboard
         </button>
       )}
       <div>
-        {isLoading ? "Loading..." : ""}
-        {!!user ? (
-          <div>
-            Hi it works, {user.displayName} your email address is{" "}
-            {user.email}, firebase user id is {user.uid}
-            value of some default_field: {JSON.stringify(docSnap)}
-          </div>
+        {user ? (
+          <button
+            style={{
+              backgroundColor:"rgba(0,0,0,0)", 
+              fontFamily:"Fredoka", 
+              color:"#ffffff", 
+              borderStyle:"hidden",
+              cursor:"pointer",
+              paddingTop:"30px"
+            }}
+            onClick={() => {
+              setIsLoading(true)
+              onLogoutClicked()
+            }}>
+            Log Out
+         </button>
         ) : (
           ""
         )}

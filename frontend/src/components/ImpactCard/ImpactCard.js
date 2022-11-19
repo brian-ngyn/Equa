@@ -15,12 +15,12 @@ const ImpactCard = (props) => {
           <img src="/assets/charity1.svg" />
         </div>
 
-        <div className=" text-left rounded-md col-span-4">
+        <div className="text-left rounded-md col-span-4">
           <p className="font-body text-xl text-typeface m-0">{impacts.charity_name}</p>
           <p className="font-body text-md text-typeface"> {impacts.activity_description}</p>
         </div>
 
-        <div className="grid text-left rounded-md">
+        <div className="grid text-left rounded-md grid grid-cols-1 gap-4 place-content-center">
           <h1 className="font-body text-md text-typeface">{impacts.date}</h1>
         </div>
 

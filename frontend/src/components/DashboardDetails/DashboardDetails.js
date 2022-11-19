@@ -56,7 +56,6 @@ const DashboardDetails = (props) => {
           index < 6 && <ImpactCard key={index} impacts={impact} /> 
 
         ))}
-
         
 
       </Grid>

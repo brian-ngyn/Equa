@@ -1,0 +1,42 @@
+{
+  "name": "extension",
+  "displayName": "Extension",
+  "version": "0.0.0",
+  "description": "A basic Plasmo extension.",
+  "author": "briannguyen",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build"
+  },
+  "dependencies": {
+    "firebase": "^9.14.0",
+    "plasmo": "0.58.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "3.5.2",
+    "@types/chrome": "0.0.197",
+    "@types/node": "18.8.3",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "prettier": "2.7.1",
+    "typescript": "4.8.4"
+  },
+  "manifest": {
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArdeBpPRbmsoGaF9Nvfjd6bOuIRU019l2E3imAFXygUMTnPp8JU+WeTTlhQ6uWiGqW/eqXkMugnAukoCPC5v5lII2u2rRpjLLNp/Jf4rMmK5cB/y9RMFrSwz91w7JI0IUpPNmhjDIgAapmBp/n46xotCuNWpD4aV1gOVBs0ZNeTzokPc6nBAiaoFdSyCTzWMMmpIleU30+v3nBCZ/UkjW/Bx0dghkV+jB+h7US8wSkM3BCWV8tI2DA50xHflKoZ1XNc/IrBm6oolvIjzg7X+ouOjc+SM6cOf93qHJLg98Hsncaau3eayJ7m3vAeJs/IVHd51vn2K98nFBv4KWc2s/UQIDAQAB",
+    "host_permissions": [
+      "https://*/*"
+    ],
+    "permissions": [
+      "identity"
+    ],
+    "oauth2": {
+      "client_id": "214784846774-433tv8araiib36a0p1ue3gl5hmkl07a8.apps.googleusercontent.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile"
+      ]
+    }
+  }
+}

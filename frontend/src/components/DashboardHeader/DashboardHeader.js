@@ -9,7 +9,7 @@ import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../authentication/firebaseConfig"
 
 const DashboardHeader = (props) => {
-  const {user, docSnap } = props;
+  const {user, docSnap, logout } = props;
   const navigate = useNavigate();
   const[progress, setProgress] = useState({current:15 ,goal:25});
 

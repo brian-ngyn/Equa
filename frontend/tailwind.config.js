@@ -14,6 +14,10 @@ module.exports = {
       'additional': '#FFFFFF',
       'typeface': '#3c1518',
     },
+    fontFamily: {
+      body: ['Fredoka One', 'sans-serif'],
+      title: ['Fredoka', , 'sans-serif']
+      }
   },
   plugins: [],
 }

@@ -15,8 +15,8 @@ import { db } from "../firebaseConfig"
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({children}) {
-    const [user, setUser] = useState("");
-    const [docSnap, setdocSnap] = useState("");
+    const [user, setUser] = useState(null);
+    const [docSnap, setdocSnap] = useState(null);
 
     function signup(email, password){
         createUserWithEmailAndPassword(firebaseAuth, email, password)
@@ -54,12 +54,14 @@ export function UserAuthContextProvider({children}) {
     }
 
     async function getUserDB(){
-        const ref = doc(db, "user", user.uid);
-        try {
-          var response = await getDoc(ref);
-          setdocSnap(response.data());
-        } catch (error) {
-          console.log(error);
+        if (user != null){
+            const ref = doc(db, "user", user.uid);
+            try {
+              var response = await getDoc(ref);
+              setdocSnap(response.data());
+            } catch (error) {
+              console.log(error);
+            }
         }
     }
 

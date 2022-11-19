@@ -11,7 +11,6 @@ import DashboardDetails from "../DashboardDetails/DashboardDetails";
 const Dashboard = () => {
   const { googleSignIn, makeUserDB, getUserDB, user, docSnap, logout } = useUserAuth();
  
-
   return (
     <>
     <div className="h-screen">

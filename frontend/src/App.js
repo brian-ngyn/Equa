@@ -6,6 +6,7 @@ import Login from "./components/pages/Login"
 import Registration from "./components/pages/Registration"
 import ProtectedRoute from './components/authentication/ProtectedRoute';
 import Dashboard from './components/pages/Dashboard';
+import Explore from "./components/pages/Explore"
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/explore" element={<Explore/>}/>
         </Routes>
       </UserAuthContextProvider>          
     </div>

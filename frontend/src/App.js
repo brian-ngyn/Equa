@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import '/dist/output.css';
 import { UserAuthContextProvider } from "./components/authentication/context/UserAuthContext"
 import { Routes, Route, } from "react-router-dom";
 import Login from "./components/pages/Login"

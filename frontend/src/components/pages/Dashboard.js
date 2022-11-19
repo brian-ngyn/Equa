@@ -5,28 +5,18 @@ import { useNavigate } from "react-router";
 
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../authentication/firebaseConfig"
+import DashboardHeader from "../DashboardHeader/DashboardHeader";
+import DashboardDetails from "../DashboardDetails/DashboardDetails";
 
 const Dashboard = () => {
-  const { user, docSnap, signup, logout, googleSignIn, makeUserDB, getUserDB } = useUserAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate("/");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
+  const { googleSignIn, makeUserDB, getUserDB, user, docSnap, logout } = useUserAuth();
+ 
   return (
     <>
-      <div>Hi it works</div>
-      <div>User id: {user.uid}</div>
-      <div>user contents: {JSON.stringify(docSnap)}</div>
-      <Button variant="contained" onClick={handleLogout}>
-        Log out
-      </Button>
+    <div className="h-screen">
+      <DashboardHeader user = {user} />
+      <DashboardDetails user = {user} docSnap = {docSnap} />
+    </div>
     </>
   );
 };

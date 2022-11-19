@@ -13,6 +13,7 @@ module.exports = {
       'secondary': '#83AA9d',
       'additional': '#FFFFFF',
       'typeface': '#3c1518',
+      'white': '#ffffff',
     },
     fontFamily: {
       title: ['Fredoka One', 'sans-serif'],

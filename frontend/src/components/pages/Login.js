@@ -28,8 +28,10 @@ const Login = () => {
   return (
     <>
       <div>
+
         <h2 >Equa</h2>
         <h3> Giving back made easy </h3>
+
         {error && <Alert variant="danger">{error}</Alert>}
 
         <div>

@@ -38,7 +38,7 @@ export function UserAuthContextProvider({children}) {
                 // check to see if user already exists 
                 var docSnap = await getDoc(ref);
                 if (!docSnap.exists()){
-                    const docRef = setDoc(ref, { new_sign_up: true, homelessness: false, 
+                    const docRef = setDoc(ref, { new_sign_up: true, total_donated: 0, homelessness: false, 
                                                     animal_shelter: false, humanitarianism: false, 
                                                     poverty: false, food_scarcity: false, monthly_donation_goal: 25,
                                                     credit_card_num: 0, ccv: 0, expiry_m: 0, expiry_d: 0, postal_code: ""});

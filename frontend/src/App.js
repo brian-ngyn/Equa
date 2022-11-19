@@ -3,24 +3,24 @@ import './App.css';
 import { UserAuthContextProvider } from "./components/authentication/context/UserAuthContext"
 import { Routes, Route, } from "react-router-dom";
 import Login from "./components/pages/Login"
-import SignUp from "./components/pages/SignUp"
+import Registration from "./components/pages/Registration"
 import ProtectedRoute from './components/authentication/ProtectedRoute';
-import Home from './components/pages/Home';
+import Dashboard from './components/pages/Dashboard';
 
 function App() {
   return (
     <div className="App">
       <UserAuthContextProvider>
         <Routes>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/signup" element={<SignUp/>} />
-          <Route path="/"
+          <Route path="/" element={<Login/>}/>
+          <Route path="/dashboard"
             element={
             <ProtectedRoute>
-              <Home/>
+              <Dashboard/>
             </ProtectedRoute>
             } 
           />
+          <Route path="/create-account" element={<Registration/>}/>
         </Routes>
       </UserAuthContextProvider>          
     </div>

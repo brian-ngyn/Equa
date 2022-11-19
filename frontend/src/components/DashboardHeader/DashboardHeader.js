@@ -13,6 +13,19 @@ const DashboardHeader = (props) => {
   const navigate = useNavigate();
   const[progress, setProgress] = useState({current:15 ,goal:25});
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    setProgress({current:docSnap.total_donated, goal:docSnap.monthly_donation_goal});
+  }, [docSnap]);
+
 
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 20,

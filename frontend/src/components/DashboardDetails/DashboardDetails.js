@@ -10,15 +10,6 @@ const DashboardDetails = () => {
   const { googleSignIn, makeUserDB, getUserDB, user, docSnap, logout } = useUserAuth();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate("/");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   return (
     <>
       <Grid className="bg-secondary h-3/5 p-2 top-1/4">

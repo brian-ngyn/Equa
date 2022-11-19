@@ -20,7 +20,13 @@ function App() {
             </ProtectedRoute>
             } 
           />
-          <Route path="/create-account" element={<Registration/>}/>
+          <Route path="/create-account" 
+            element={
+              <ProtectedRoute>
+                <Registration/>
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </UserAuthContextProvider>          
     </div>

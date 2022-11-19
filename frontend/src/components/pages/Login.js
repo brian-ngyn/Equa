@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import GoogleButton from "react-google-button";
@@ -13,17 +13,25 @@ const Login = () => {
     e.preventDefault();
     try {
       await googleSignIn();
-      await makeUserDB();
-      await getUserDB();
-      if (!docSnap.is_new_signup){
-        navigate("/dashboard");
-      } else {
-        navigate("/create-account");
-      }
     } catch (error) {
       setError(error.message);
     }
   };
+
+  useEffect(() => {
+    makeUserDB();
+    getUserDB();
+  }, [user, makeUserDB, getUserDB])
+
+  useEffect(() => {
+    if (docSnap != null){
+      if (docSnap.new_sign_up){
+        navigate("/create-account");
+      } else {
+        navigate("/dashboard");
+      }
+    }
+  }, [docSnap, navigate])
 
   return (
     <>

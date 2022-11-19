@@ -7,7 +7,7 @@ import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../authentication/firebaseConfig"
 
 const Dashboard = () => {
-  const { googleSignIn, makeUserDB, getUserDB, user, docSnap, logout } = useUserAuth();
+  const { user, docSnap, signup, logout, googleSignIn, makeUserDB, getUserDB } = useUserAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

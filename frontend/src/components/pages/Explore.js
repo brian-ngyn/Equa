@@ -9,18 +9,30 @@ import { db } from "../authentication/firebaseConfig"
 const Explore = () => {
   const navigate = useNavigate();
   var partners = new Set();
+  const loaded_partners = false;
+  var charities = new Set();
+  const loaded_charities = false;
 
   const getPartners = async () => {
     const querySnapshot = await getDocs(collection(db, "partners"));
+    partners.clear();
     querySnapshot.forEach((doc) => {
       partners.add(doc.data());
     });
     console.log(partners);
   }
 
-  useEffect(() => {
-    getPartners();
-  }, [])
+  const getCharities = async () => {
+    const querySnapshot = await getDocs(collection(db, "charities"));
+    charities.clear();
+    querySnapshot.forEach((doc) => {
+      charities.add(doc.data());
+    });
+    console.log(charities);
+  }
+
+  getPartners();
+  getCharities();
 
   return (
     <>

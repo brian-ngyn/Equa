@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import GoogleButton from "react-google-button";
@@ -18,7 +18,7 @@ const Registration = () => {
   
   const [selected, setSelected] = React.useState(false);
   const [error, setError] = useState("");
-  const { getUserDB, user, docSnap } = useUserAuth();
+  const { user, docSnap, signup, logout, googleSignIn, makeUserDB, getUserDB } = useUserAuth();
   const navigate = useNavigate();
   
   return (

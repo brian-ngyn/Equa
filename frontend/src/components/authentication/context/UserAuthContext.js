@@ -15,8 +15,8 @@ import { db } from "../firebaseConfig"
 const userAuthContext = createContext();
 
 export function UserAuthContextProvider({children}) {
-    const [user, setUser] = useState("");
-    const [docSnap, setdocSnap] = useState("");
+    const [user, setUser] = useState(null);
+    const [docSnap, setdocSnap] = useState(null);
 
     function signup(email, password){
         createUserWithEmailAndPassword(firebaseAuth, email, password)
@@ -38,7 +38,7 @@ export function UserAuthContextProvider({children}) {
                 // check to see if user already exists 
                 var docSnap = await getDoc(ref);
                 if (!docSnap.exists()){
-                    const docRef = setDoc(ref, { new_sign_up: true, homelessness: false, 
+                    const docRef = setDoc(ref, { new_sign_up: true, total_donated: 0, homelessness: false, 
                                                     animal_shelter: false, humanitarianism: false, 
                                                     poverty: false, food_scarcity: false, monthly_donation_goal: 25,
                                                     credit_card_num: 0, ccv: 0, expiry_m: 0, expiry_d: 0, postal_code: ""});
@@ -54,12 +54,14 @@ export function UserAuthContextProvider({children}) {
     }
 
     async function getUserDB(){
-        const ref = doc(db, "user", user.uid);
-        try {
-          var response = await getDoc(ref);
-          setdocSnap(response.data());
-        } catch (error) {
-          console.log(error);
+        if (user != null){
+            const ref = doc(db, "user", user.uid);
+            try {
+              var response = await getDoc(ref);
+              setdocSnap(response.data());
+            } catch (error) {
+              console.log(error);
+            }
         }
     }
 

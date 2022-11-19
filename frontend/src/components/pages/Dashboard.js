@@ -6,9 +6,8 @@ import { useNavigate } from "react-router";
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../authentication/firebaseConfig"
 
-const Home = () => {
-  const { user, logout } = useUserAuth();
-  const [ docSnap, setdocSnap] = useState("");
+const Dashboard = () => {
+  const { googleSignIn, makeUserDB, getUserDB, user, docSnap, logout } = useUserAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,20 +18,6 @@ const Home = () => {
       console.log(error.message);
     }
   };
-
-  const getUserDB = async() => {
-    const ref = doc(db, "user", user.uid);
-    try {
-      var response = await getDoc(ref);
-      setdocSnap(response.data());
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    getUserDB();
-  }, []);
 
   return (
     <>
@@ -46,4 +31,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

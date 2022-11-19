@@ -9,9 +9,7 @@ import { db } from "../authentication/firebaseConfig"
 const Explore = () => {
   const navigate = useNavigate();
   var partners = new Set();
-  const loaded_partners = false;
   var charities = new Set();
-  const loaded_charities = false;
 
   const getPartners = async () => {
     const querySnapshot = await getDocs(collection(db, "partners"));

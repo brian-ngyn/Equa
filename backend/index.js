@@ -10,38 +10,43 @@ app.use(express.static("./public"));
 
 const stripe = require("stripe")("sk_test_51M5zteHTzGbdWjdPvMC9qGehWV3D4RpHgMMaIoUAnmzYxIcNFkp2X9QNejZz8KSBPXtL7e8fc6wRb1HRU8Kt1LoK00zt85KI3A")
 
-app.get("/create-checkout-session", async (req, res) => {
+app.get("/create-user", async (req, res) => {
+  console.log(req.query);
   
   const paymentMethod = await stripe.paymentMethods.create({
     type: 'card',
     card: {
-      number: '4242424242424242',
-      exp_month: 11,
-      exp_year: 2023,
-      cvc: '314',
+      number: req.query.credit_card_num,
+      exp_month: req.query.expiry_date.substring(0, 2),
+      exp_year: '20' + req.query.expiry_date.substring(2,4),
+      cvc: req.query.cvc,
     },
   });
 
-  const product = await stripe.products.create({
-    name: req.query.charity,
+  const customer = await stripe.customers.create({
+    email: req.query.email,
+    name: req.query.full_name,
+    payment_method: paymentMethod.id,
   });
-  // console.log(product);
 
-  const price = await stripe.prices.create({
+  res.send({payment: paymentMethod, customer: customer});
+});
+
+app.get("/donate", async (req, res) => {
+  console.log(req.query);
+
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: req.query.donationAmount * 100,
     currency: 'cad',
-    unit_amount: req.query.donationAmount * 100,
-    product: product.id,
+    description: 'Donation to ' + req.query.charity,
+    payment_method_types: ['card'],
+    confirm: true,
+    customer: req.query.docSnap.customer_id,
+    payment_method: req.query.docSnap.payment_id,
+    receipt_email: req.query.email
   });
 
-  // console.log(price)
-
-  const paymentLink = await stripe.paymentLinks.create({
-    line_items: [{price: price.id, quantity: 1}],
-  });
-
-  console.log(paymentLink);
-
-  res.send(paymentLink);
+  res.send(paymentIntent);
 })
 
 app.listen(3001, () => {

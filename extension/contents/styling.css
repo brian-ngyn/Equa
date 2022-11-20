@@ -1,0 +1,10 @@
+.container {
+    background-color:#FDF8EF;
+    width:400px;
+    height:500px;
+    position:fixed;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding:20px;
+    right:20px;
+    top:20px;
+}

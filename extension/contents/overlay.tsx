@@ -1,19 +1,25 @@
 import logo from "data-base64:~assets/logo.png"
 import cssText from "data-text:~/contents/styling.css"
+import type { User } from "firebase/auth"
+import { Storage } from "@plasmohq/storage";
+import { getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
 import type { PlasmoContentScript } from "plasmo"
 import Axios from "axios";
+import { firebaseAuth, db } from "../firebase"
 import { useEffect, useState } from "react"
 import CharityCard from './CharityCard'
 export const config: PlasmoContentScript = {
     matches: ["https://www.plasmo.com/*"],
     css: ["font.css"]
-  }
-
-export const getStyle = () => {
-  const style = document.createElement("style")
-  style.textContent = cssText
-  return style
 }
+
+const storage = new Storage();
+export const getStyle = () => {
+    const style = document.createElement("style")
+    style.textContent = cssText
+    return style
+}
+
 
 const renderCard = (name, image) => {
     return (
@@ -28,12 +34,50 @@ const PlasmoInline = () => {
     const [charity, setCharity] = useState(charityOptions[0]);
     const [donationAmount, setdonationAmount] = useState(null);
     const [paymentLink, setPaymentLink] = useState(null);
+    const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
+    const [user, setUser] = useState(null)
+
+
+    const getUserDB = async (equa_uid) => {
+        const ref = doc(db, "user", equa_uid.uid);
+        try {
+            var response = await getDoc(ref);
+            setdocSnap(response.data());
+        } catch (error) {
+            console.error("Doc", error);
+        }
+    }
+    
+    // JUST IN HERE TO SHOW VALUES OF DOC SNAP
+    useEffect(() => {
+        console.log("Doc Snap", docSnap);
+    }, [docSnap]);
+
+    useEffect(() => {
+        console.log("USER", user);
+    }, [user]);
+
+
+    useEffect(() => {
+        // fetch tasks from the local storage
+        storage.get("equa_uid").then(
+            (equa_uid) => {
+                getUserDB(equa_uid);
+                setUser(equa_uid);
+            },
+            // if there are no tasks, set an empty array
+            // this usually gets triggered if the method fails or returns an error
+            (() => console.log("Get UID Error"))
+        )
+    },
+       [] // run once on moun[]
+    );
 
     const sendReq = () => {
         const params = {
             donationAmount: donationAmount,
             charity: charity
-          };
+        };
         Axios.get("http://localhost:3001/create-checkout-session", {
             params
         }).then((response) => {
@@ -43,69 +87,70 @@ const PlasmoInline = () => {
         });
     }
     return (
+        user && docSnap && 
         <div className="container">
             <div style={{
-                display:"flex",
-                width:"100%",
+                display: "flex",
+                width: "100%",
             }}>
                 <img src={logo}></img>
                 <div style={{
-                    display:"flex",
-                    flexDirection:"column"
+                    display: "flex",
+                    flexDirection: "column"
                 }}>
                     <h1 style={{
-                        marginBottom:"0",
-                        color:"#1C6758"
+                        marginBottom: "0",
+                        color: "#1C6758"
                     }}>
-                        Hi, NAME!
+                        Hi, {user.displayName}
                     </h1>
                     <p style={{
-                        marginTop:"0"
+                        marginTop: "0"
                     }}>
                         Your monthly donations
                     </p>
                     <div style={{
-                        width:"100%",
-                        height:"25px",
-                        backgroundColor:"red",
-                        marginBottom:"10px",
-                        borderRadius:"50px",
+                        width: "100%",
+                        height: "25px",
+                        backgroundColor: "red",
+                        marginBottom: "10px",
+                        borderRadius: "50px",
                     }}>
                     </div>
                     <p style={{
-                        marginTop:"0"
+                        marginTop: "0"
                     }}>
-                        $14.00/$25.00
+                        ${docSnap.total_donated}/${docSnap.monthly_donation_goal}
                     </p>
                 </div>
             </div>
-            <p style={{paddingLeft:"10px"}}>
-                You’re $11.00 away from your monthly goal - would you like to make a donation to one of the charities below?
+            <p style={{ paddingLeft: "10px" }}>
+                You’re ${docSnap.monthly_donation_goal - docSnap.total_donated} away from your monthly goal - would you like to make a donation to one of the charities below?
             </p>
-            {renderCard("asdf","asdf")}
+            {renderCard("asdf", "asdf")}
             <label>Donation:</label>
             <input
                 type="text"
                 onChange={(event) => {
-                setdonationAmount(event.target.value);
+                    setdonationAmount(event.target.value);
                 }}
             />
-            <br/>
+            <br />
             <label>Charity:</label>
             <form>
-            <select 
-                value={charity} 
-                onChange={e => setCharity(e.target.value)}>
+                <select
+                    value={charity}
+                    onChange={e => setCharity(e.target.value)}>
                     {charityOptions.map((value) => (
-                    <option value={value} key={value}>
-                        {value}
-                    </option>
-                ))}
-            </select>
+                        <option value={value} key={value}>
+                            {value}
+                        </option>
+                    ))}
+                </select>
             </form>
             <button onClick={sendReq}>Donate!</button>
         </div>
     )
-  }
-   
+}
+
 export default PlasmoInline

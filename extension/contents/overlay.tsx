@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from '@mui/material/TextField';
 import logo from "data-base64:~assets/logo.png"
+import x from "data-base64:~assets/x.png"
 import cssText from "data-text:~/contents/styling.css"
 import type { User } from "firebase/auth"
 import { Storage } from "@plasmohq/storage";
@@ -24,12 +25,13 @@ export const getStyle = () => {
 };
 
 const PlasmoInline = () => {
-    const [donationAmount, setdonationAmount] = useState(null);
+    const [donationAmount, setdonationAmount] = useState("2");
     const [display, setDisplay] = useState(false);
     const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
     const [user, setUser] = useState(null);
-    const [selected, setSelected] = useState("2");
+    const [selected, setSelected] = useState("");
     const [charities, setCharities] = useState([]);
+    const [close, setClose] = useState(false);
 
     const getCharities = async () => {
       const querySnapshot = await getDocs(collection(db, "charities"));
@@ -124,6 +126,7 @@ const PlasmoInline = () => {
                     marginBottom: "20px",
                     cursor: "pointer",
                     display: "flex",
+                    color:"#3C1518"
                 }}
                 onClick={() => {
                     setSelected(name);
@@ -176,6 +179,10 @@ const PlasmoInline = () => {
         })
     }
 
+    if (close){
+        return
+    }
+
     return (
         user && display &&
         <div className="container">
@@ -198,22 +205,23 @@ const PlasmoInline = () => {
                     {docSnap &&
                     <>
                     <p style={{
-                        marginTop: "0"
+                        marginTop: "10px",
                     }}>
                         Your monthly donations
                     </p>
 
-                    <p style={{
-                        marginTop: "0"
+                    <strong style={{
+                        marginTop: "0",
+                        color:"#3C1518"
                     }}>
                         ${docSnap.total_donated}/${docSnap.monthly_donation_goal}
-                    </p>
+                    </strong>
                     </>}
                 </div>
             </div>
             {!docSnap && 
-                    <div style={{paddingTop: 20, textAlign:"center", alignItems:"center", alignContent:"center"}}>
-                        <p>We would like to learn more about your top charities so we can maximise your contributions. Click the button below to finish the process, and then reload this page.  </p>
+                        <div style={{paddingTop: 20, textAlign:"center", alignItems:"center", alignContent:"center"}}>
+                        <p style={{color:"#3C1518"}}>We would like to learn more about your top charities so we can maximise your contributions. Click the button below to finish the process, and then reload this page.  </p>
                         <button style={{
                             backgroundColor:"#3c1518", 
                             fontFamily:"sans-serif", 
@@ -232,7 +240,7 @@ const PlasmoInline = () => {
                         }
             {docSnap &&
             <>
-            <p style={{ paddingLeft: "10px" }}>
+            <p style={{ paddingLeft: "10px"}}>
                 You’re ${docSnap.monthly_donation_goal - docSnap.total_donated} away from your monthly goal - would you like to make a donation to one of the charities below?
             </p>
             <Grid container spacing={2}>
@@ -278,11 +286,13 @@ const PlasmoInline = () => {
                     cursor: "pointer",
                 }}
                 onClick={sendReq} 
+                disabled={(selected===""||!donationAmount)}
                 >
                     Donate!
                 </button>
             </div>
             </>}
+            <img src={x} style={{position:"absolute", top:"20px", left:"20px", width:"10px", height:"10px"}} onClick={()=>{setClose(true)}}></img>
         </div>
         
     )

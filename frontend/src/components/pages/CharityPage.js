@@ -38,7 +38,7 @@ function CharityPage() {
 
   return (
     <>
-      <div className="bg-backdrop h-screen w-screen p-20">
+      <div className="bg-backdrop h-screen w-screen p-20" style={{paddingLeft:"15rem", paddingRight:"15rem"}}>
         <NavBar />
         <div className="my-auto mx-auto p-20">
           <div className="flex justify-left">
@@ -60,8 +60,8 @@ function CharityPage() {
           {activities.map((activity) => (
             <div className="flex my-3">
               <img src="../../../assets/images/Checkmark.svg" alt="Checkmark" />
-              <p className="ml-5 mr-2 text-left">{activity.activity_description} </p>
-              <p className="ml-auto text-right">{activity.date}</p>
+              <p className="font-body ml-5 mr-2 text-left">{activity.activity_description} </p>
+              <p className="font-body ml-auto text-right">{activity.date}</p>
             </div>
           ))}
         </div>

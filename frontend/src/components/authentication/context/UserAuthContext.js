@@ -17,6 +17,14 @@ const userAuthContext = createContext();
 export function UserAuthContextProvider({children}) {
     const [user, setUser] = useState(null);
     const [docSnap, setdocSnap] = useState(null);
+    const causesStatus = {
+        animal_shelter: false,
+        education: false,
+        food_scarcity: false,
+        homelessness: false,
+        humanitarianism: false,
+        poverty: false
+    }
 
     function signup(email, password){
         createUserWithEmailAndPassword(firebaseAuth, email, password)
@@ -39,9 +47,9 @@ export function UserAuthContextProvider({children}) {
                 var docSnap = await getDoc(ref);
                 if (!docSnap.exists()){
                     const docRef = setDoc(ref, { new_sign_up: true, total_donated: 0, homelessness: false, 
-                                                    animal_shelter: false, humanitarianism: false, 
-                                                    poverty: false, food_scarcity: false, monthly_donation_goal: 25,
-                                                    credit_card_num: 0, ccv: 0, expiry_m: 0, expiry_d: 0, postal_code: ""});
+                                                    education: false, animal_shelter: false, humanitarianism: false, 
+                                                    poverty: false, food_scarcity: false, monthly_donation_goal: 0,
+                                                    credit_card_num: 0, ccv: 0, expiry_date: 0, postal_code: ""});
                     console.log("User doccument written");
                 }
                 else {
@@ -75,7 +83,7 @@ export function UserAuthContextProvider({children}) {
     }, []);
 
     return (
-        <userAuthContext.Provider value={{ user, docSnap, signup, logout, googleSignIn, makeUserDB, getUserDB }}>
+        <userAuthContext.Provider value={{ user, docSnap, causesStatus, signup, logout, googleSignIn, makeUserDB, getUserDB }}>
             {children}
         </userAuthContext.Provider>
     )

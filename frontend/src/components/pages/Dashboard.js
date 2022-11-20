@@ -15,7 +15,7 @@ const Dashboard = () => {
     <>
       <div className="h-screen">
         <DashboardHeader user={user} docSnap={docSnap} logout={logout} />
-        <DashboardDetails docSnap={docSnap} />
+        <DashboardDetails user={user} docSnap={docSnap} />
       </div>
     </>
   );

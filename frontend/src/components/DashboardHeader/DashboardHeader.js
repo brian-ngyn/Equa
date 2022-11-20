@@ -48,7 +48,7 @@ const DashboardHeader = (props) => {
               <img src="/assets/earth.svg" className={"h-full"} alt="Test"/>
             </div>
             <div className="grid h-4/6 w-4/5 text-left grid grid-cols-1 gap-4 place-content-center p-10">
-              <h1 className="font-title text-5xl text-primary">Welcome Back, {user.firstName}</h1>
+              <h1 className="font-title text-5xl text-primary">Welcome Back, {user.displayName}</h1>
               <h1 className="font-body text-lg text-typeface">Your monthly donations</h1>
               <span className="grid grid-cols-2 w-full">
                 <BorderLinearProgress variant="determinate" value={progress.current/progress.goal*100} />

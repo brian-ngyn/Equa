@@ -6,6 +6,8 @@ import { useUserAuth } from "../authentication/context/UserAuthContext";
 import { FormControl, InputLabel, OutlinedInput, InputAdornment, FormHelperText, Button } from "@mui/material";
 import { Box, typography } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { db } from "../../components/authentication/firebaseConfig"
+import { doc, updateDoc } from "firebase/firestore";
 
 import RenderCard from "../CauseCard.js";
 import animalshelter from "../../AnimalShelters.svg";
@@ -16,9 +18,11 @@ import human from "../../Humanitarianism.svg";
 import poverty from "../../Poverty.svg";
 
 const Registration = () => {
+  const [error, setError] = useState("");
+  const { user, causesStatus, docSnap, signup, logout, googleSignIn, makeUserDB, getUserDB } = useUserAuth();
+  const navigate = useNavigate();
   
   const theme = createTheme({
-
     palette: {
       custom: {
         main: '#3c1518',
@@ -26,6 +30,7 @@ const Registration = () => {
       }
     }
   });
+  
   const [value, setValue] = React.useState({
     amount:"",
     creditCardNumber:"",
@@ -33,13 +38,32 @@ const Registration = () => {
     date:"",
     postalCode:"",
   });
+
   const handleChange = (prop) => (event) => {
     setValue({...value, [prop]: event.target.value});
   };
-  const [error, setError] = useState("");
-  const { user, docSnap, signup, logout, googleSignIn, makeUserDB, getUserDB } = useUserAuth();
-  const navigate = useNavigate();
-  
+
+  const updateDB = async () => {
+    console.log(causesStatus);
+    const userRef = doc(db, "user", user.uid);
+    await updateDoc(userRef, {
+      monthly_donation_goal: value.amount,
+      ccv: value.ccv,
+      credit_card_num: value.creditCardNumber,
+      expiry_date: value.date,
+      postal_code: value.postalCode,
+      new_sign_up: false,
+
+      animal_shelter: causesStatus.animal_shelter,
+      education: causesStatus.education,
+      food_scarcity: causesStatus.food_scarcity,
+      homelessness: causesStatus.homelessness,
+      humanitarianism: causesStatus.humanitarianism,
+      poverty: causesStatus.poverty,
+    });
+    navigate("/dashboard")
+  }
+
   return (
     <>
     <div className='bg-backdrop min-h-max min-w-max'>
@@ -54,22 +78,22 @@ const Registration = () => {
           <span class="inline-grid grid-cols-3 grid-rows-2 gap-2"
           >
               <span>
-                {RenderCard("Homelessness", homeless)}
+                {RenderCard("homelessness", "Homelessness", homeless)}
               </span>
               <span>
-                {RenderCard("Education", education)}
+                {RenderCard("education", "Education", education)}
               </span>
               <span>
-                {RenderCard("Animals", animalshelter)}
+                {RenderCard("animal_shelter", "Animal Shelters", animalshelter)}
               </span>
               <span>
-                {RenderCard("Humanitarianism", human)}
+                {RenderCard("humanitarianism", "Humanitarianism", human)}
               </span>
               <span>
-                {RenderCard("Poverty", poverty)}
+                {RenderCard("Poverty", "Poverty", poverty)}
               </span>
               <span>
-                {RenderCard("Food Scarcity", food)}
+                {RenderCard("food_scarcity", "Food Scarcity", food)}
               </span>
             </span>
         </div>
@@ -145,9 +169,7 @@ const Registration = () => {
                   color="custom" 
                   variant="contained" 
                   sx={{m:1}}
-                  onClick={() => {
-                    alert('clicked');
-                  }}
+                  onClick={updateDB}
                   >Create Account
                   </Button>
               </div>

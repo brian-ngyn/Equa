@@ -8,6 +8,7 @@ import Axios from "axios";
 import { firebaseAuth, db } from "../firebase"
 import { useEffect, useState } from "react"
 import CharityCard from './CharityCard'
+import { LinearProgress, linearProgressClasses, styled } from "@mui/material";
 export const config: PlasmoContentScript = {
     matches: ["https://www.plasmo.com/*"],
     css: ["font.css"]
@@ -35,19 +36,34 @@ const PlasmoInline = () => {
     const [donationAmount, setdonationAmount] = useState(null);
     const [paymentLink, setPaymentLink] = useState(null);
     const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null);
+
+    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+        height: 20,
+        borderRadius: 10,
+        [`&.${linearProgressClasses.colorPrimary}`]: {
+            backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+        },
+        [`& .${linearProgressClasses.bar}`]: {
+            borderRadius: 0,
+            backgroundColor: theme.palette.mode === 'light' ? '#3c1518' : '#308fe8',
+        },
+    }));
 
 
     const getUserDB = async (equa_uid) => {
-        const ref = doc(db, "user", equa_uid.uid);
-        try {
-            var response = await getDoc(ref);
-            setdocSnap(response.data());
-        } catch (error) {
-            console.error("Doc", error);
+        if (equa_uid) {
+            try {
+                const ref = doc(db, "user", equa_uid.uid);
+                var response = await getDoc(ref);
+                setdocSnap(response.data());
+            } catch (error) {
+                console.error("Doc", error);
+                alert("Please finis your signup on our website");
+            }
         }
     }
-    
+
     // JUST IN HERE TO SHOW VALUES OF DOC SNAP
     useEffect(() => {
         console.log("Doc Snap", docSnap);
@@ -70,7 +86,7 @@ const PlasmoInline = () => {
             (() => console.log("Get UID Error"))
         )
     },
-       [] // run once on moun[]
+        [] // run once on moun[]
     );
 
     const sendReq = () => {
@@ -87,7 +103,7 @@ const PlasmoInline = () => {
         });
     }
     return (
-        user && docSnap && 
+        user && docSnap &&
         <div className="container">
             <div style={{
                 display: "flex",
@@ -109,14 +125,7 @@ const PlasmoInline = () => {
                     }}>
                         Your monthly donations
                     </p>
-                    <div style={{
-                        width: "100%",
-                        height: "25px",
-                        backgroundColor: "red",
-                        marginBottom: "10px",
-                        borderRadius: "50px",
-                    }}>
-                    </div>
+                    <BorderLinearProgress variant="determinate" value={50} />
                     <p style={{
                         marginTop: "0"
                     }}>

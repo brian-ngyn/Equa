@@ -11,12 +11,18 @@ import DashboardDetails from "../DashboardDetails/DashboardDetails";
 const Dashboard = () => {
   const { googleSignIn, makeUserDB, getUserDB, user, docSnap, logout } = useUserAuth();
 
+  useEffect(() => {
+    if (docSnap && !docSnap.monthly_donation_goal){
+      getUserDB();
+    }
+    
+  }, [docSnap]);
   return (
     <>
-      <div className="h-screen">
-        <DashboardHeader user={user} docSnap={docSnap} logout={logout} />
-        <DashboardDetails user={user} docSnap={docSnap} />
-      </div>
+        <div className="h-screen">
+          <DashboardHeader user={user} logout={logout} />
+          <DashboardDetails user={user} />
+        </div>
     </>
   );
 };

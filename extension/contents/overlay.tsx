@@ -6,7 +6,7 @@ import { getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
 import type { PlasmoContentScript } from "plasmo"
 import Axios from "axios";
 import { firebaseAuth, db } from "../firebase"
-import { useEffect, useState } from "react"
+import { useEffect, useId, useState } from "react"
 import CharityCard from './CharityCard'
 import { LinearProgress, linearProgressClasses, styled } from "@mui/material";
 export const config: PlasmoContentScript = {
@@ -21,7 +21,6 @@ export const getStyle = () => {
     return style
 }
 
-
 const renderCard = (name, image) => {
     return (
         <div>
@@ -31,10 +30,9 @@ const renderCard = (name, image) => {
 }
 
 const PlasmoInline = () => {
-    const charityOptions = ["Alberta Animal Rescue Crew Society", "JUMP Math"];
+    const charityOptions = ["Alberta Animal Rescue Crew Society", "JUMP Math", "Inn from the Cold", "Horizon Housing Society"];
     const [charity, setCharity] = useState(charityOptions[0]);
     const [donationAmount, setdonationAmount] = useState(null);
-    const [paymentLink, setPaymentLink] = useState(null);
     const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
     const [user, setUser] = useState(null);
 
@@ -92,16 +90,23 @@ const PlasmoInline = () => {
     const sendReq = () => {
         const params = {
             donationAmount: donationAmount,
-            charity: charity
+            charity: charity,
+            email: user.email,
+            docSnap: docSnap
         };
-        Axios.get("http://localhost:3001/create-checkout-session", {
+        Axios.get("http://localhost:3001/donate", {
             params
-        }).then((response) => {
-            setPaymentLink(response.data);
-            console.log(response.data.url);
-            window.open(response.data.url, '_blank', 'noopener,noreferrer');
-        });
+        }).then((res) => {
+            if (res.data.status == "succeeded"){
+                console.log("payment worked");
+                // update the database and increase field "total_donated"
+            } else {
+                // need to do some handling for that
+                console.log("payment failed");
+            }
+        })
     }
+
     return (
         user && docSnap &&
         <div className="container">

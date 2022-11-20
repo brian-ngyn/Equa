@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import NavBar from "../NavBar/NavBar";
 import {
   collection,
   query,
@@ -38,6 +39,7 @@ function CharityPage() {
   return (
     <>
       <div className="bg-backdrop h-screen w-screen p-20">
+        <NavBar />
         <div className="my-auto mx-auto p-20">
           <div className="flex justify-left">
             <img
@@ -58,29 +60,10 @@ function CharityPage() {
           {activities.map((activity) => (
             <div className="flex my-3">
               <img src="../../../assets/images/Checkmark.svg" alt="Checkmark" />
-              <p className="ml-5">{activity.activity_description} </p>
-              <p className="ml-auto">{activity.date}</p>
+              <p className="ml-5 mr-2 text-left">{activity.activity_description} </p>
+              <p className="ml-auto text-right">{activity.date}</p>
             </div>
           ))}
-          {/* <div className="flex my-3">
-            <img src="../../../assets/images/Checkmark.svg" alt="Checkmark" />
-            <p className="ml-5">Rescued a family of golden retrievers </p>
-            <p className="ml-auto">November 12, 2022</p>
-          </div>
-          <div className="flex my-3">
-            <img src="../../../assets/images/Checkmark.svg" alt="Checkmark" />
-            <p className="ml-5">
-              Provided financial support for a puppie's knee surgery{" "}
-            </p>
-            <p className="ml-auto">November 2, 2022</p>
-          </div>
-          <div className="flex my-3">
-            <img src="../../../assets/images/Checkmark.svg" alt="Checkmark" />
-            <p className="ml-5">
-              Donated $2500 to a campaign against animal cruelty
-            </p>
-            <p className="ml-auto">October 28, 2022</p>
-          </div> */}
         </div>
       </div>
     </>

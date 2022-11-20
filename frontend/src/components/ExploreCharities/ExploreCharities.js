@@ -29,7 +29,7 @@ const ExploreCharities = (props) => {
 
   return (
     <>
-
+      
       {charities.map((charity) => (
         <CharityCard key={charity.name} charity={charity} />
       ))}

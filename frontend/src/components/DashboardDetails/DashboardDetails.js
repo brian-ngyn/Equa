@@ -9,6 +9,7 @@ import { collection, query, where, getDocs, setDoc, doc } from "firebase/firesto
 import { db } from "../authentication/firebaseConfig"
 import ImpactCard from "../ImpactCard/ImpactCard";
 
+
 const DashboardDetails = (props) => {
   const { user } = props;
   const [impacts, setImpacts] = useState([]);

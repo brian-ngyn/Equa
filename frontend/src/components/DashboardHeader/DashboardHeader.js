@@ -44,7 +44,7 @@ const DashboardHeader = (props) => {
       <Grid className="bg-backdrop h-2/5 p-2 grid grid-cols-1 gap-4 place-content-center">
         <div className="w-4/5 mx-auto">
           <Grid container className="mx-auto" style={{display:"flex", alignItems:"center"}}>
-            <div className="grid h-4/6 w-1/5 grid grid-cols-1 gap-4 place-content-center">
+            <div className="grid h-4/6 w-1/5 grid grid-cols-1 gap-4 place-content-center" style={{display:"flex",justifyContent:"flex-end"}}>
               <img src="/assets/images/happyEarth.png" className={"h-full"} alt="Test"/>
             </div>
             <div className="h-4/6 w-4/5 text-left grid grid-cols-1 gap-4 place-content-center p-10">

@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import GoogleButton from "react-google-button";
 import { useUserAuth } from "../authentication/context/UserAuthContext";
-import { FormControl, InputLabel, OutlinedInput, InputAdornment, FormHelperText } from "@mui/material";
+import { FormControl, InputLabel, OutlinedInput, InputAdornment, FormHelperText, Button } from "@mui/material";
+import { Box, typography } from "@mui/system";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import RenderCard from "../CauseCard.js";
 import animalshelter from "../../AnimalShelters.svg";
@@ -12,11 +14,18 @@ import food from "../../FoodScarcity.svg";
 import homeless from "../../Homelessness.svg";
 import human from "../../Humanitarianism.svg";
 import poverty from "../../Poverty.svg";
-import { Box } from "@mui/system";
-
 
 const Registration = () => {
   
+  const theme = createTheme({
+
+    palette: {
+      custom: {
+        main: '#3c1518',
+        contrastText: '#ffffff'
+      }
+    }
+  });
   const [value, setValue] = React.useState({
     amount:"",
     creditCardNumber:"",
@@ -33,20 +42,19 @@ const Registration = () => {
   
   return (
     <>
-    <div className='bg-backdrop h-screen w-screen'>
+    <div className='bg-backdrop min-h-max min-w-max'>
       <div>
-          <h1 className="font-title text-typeface text-2xl"
-          align='flex-start'>
+          <h1 className="font-title text-typeface text-6xl justify-start">
             Create Account
             </h1>
-          <h2 className="font-body text-typeface">First, select some causes you're passionate about</h2>
+          <h2 className="font-body text-typeface text-lg">First, select some causes you're passionate about</h2>
           {error && <Alert variant="danger">{error}</Alert>}
         </div>
         <div>
           <span class="inline-grid grid-cols-3 grid-rows-2 gap-2"
           >
               <span>
-                {RenderCard("Homeless", homeless)}
+                {RenderCard("Homelessness", homeless)}
               </span>
               <span>
                 {RenderCard("Education", education)}
@@ -66,72 +74,86 @@ const Registration = () => {
             </span>
         </div>
         <div>
-          <Box className="mx-25">
-            <div class="m-1 inline-flex">
-              Now, enter your monthly donation goal 
-              <FormControl sx={{m: 1, width: '25ch'}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-                <OutlinedInput
-                fullWidth
-                id="outlined-adornment-amount"
-                value={value.amount}
-                onChange={handleChange("amount")}
-                startAdornment={
-                  <InputAdornment position="start">$</InputAdornment>
-                }
-                label="Amount"
-                />
-              </FormControl>
-            </div>
-            <div>
-              <FormControl fullWidth sx={{m:1}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-creditCardNumber">Credit Card Number</InputLabel>
-                <OutlinedInput
-                id="outlined-adornment-creditCardNumber"
-                value={value.creditCardNumber}
-                onChange={handleChange("creditCardNumber")}
-                label="Credit Card Number"
-                />
-              </FormControl>
-            </div>
-            <div class="m-1 inline-flex">
-              <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-date">Exp. Date</InputLabel>
-                <OutlinedInput
-                fullWidth
-                id="outlined-adornment-date"
-                value={value.date}
-                onChange={handleChange("date")}
-                label="Exp. Date"
-                />
-                <FormHelperText id="outlined-expdate-helper-text">(MM/YY)</FormHelperText>
-              </FormControl>
-              <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-ccv">CCV</InputLabel>
-                <OutlinedInput
-                fullWidth
-                id="outlined-adornment-ccv"
-                value={value.ccv}
-                onChange={handleChange("ccv")}
-                label="CCV"
-                />
-                <FormHelperText id="outlined-ccv-helper-text">(4 digits)</FormHelperText>
-              </FormControl>
-              <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-postalCode">Postal Code</InputLabel>
-                <OutlinedInput
-                fullWidth
-                id="outlined-adornment-postalCode"
-                value={value.postalCode}
-                onChange={handleChange("postalCode")}
-                label="Postal Code"
-                />
-              </FormControl>
-            </div>
-          </Box>
-        </div>
-      
+          <ThemeProvider theme={theme}>
 
+            <Box>
+              <div class="m-1 inline-flex text-typeface font-body">
+                <div class="mt-5 mr-10">
+                  Now, enter your monthly donation goal 
+                </div>
+                <FormControl sx={{m: 1, width: '25ch'}} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+                  <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-amount"
+                  value={value.amount}
+                  onChange={handleChange("amount")}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                  label="Amount"
+                  />
+                </FormControl>
+              </div>
+              <div>
+                <FormControl fullWidth sx={{m:1, width: '79ch'}} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-creditCardNumber">Credit Card Number</InputLabel>
+                  <OutlinedInput
+                  id="outlined-adornment-creditCardNumber"
+                  value={value.creditCardNumber}
+                  onChange={handleChange("creditCardNumber")}
+                  label="Credit Card Number"
+                  />
+                </FormControl>
+              </div>
+              <div class="m-1 inline-flex">
+                <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-date">Exp. Date</InputLabel>
+                  <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-date"
+                  value={value.date}
+                  onChange={handleChange("date")}
+                  label="Exp. Date"
+                  />
+                  <FormHelperText id="outlined-expdate-helper-text">(MM/YY)</FormHelperText>
+                </FormControl>
+                <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-ccv">CCV</InputLabel>
+                  <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-ccv"
+                  value={value.ccv}
+                  onChange={handleChange("ccv")}
+                  label="CCV"
+                  />
+                  <FormHelperText id="outlined-ccv-helper-text">(4 digits)</FormHelperText>
+                </FormControl>
+                <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
+                  <InputLabel htmlFor="outlined-adornment-postalCode">Postal Code</InputLabel>
+                  <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-postalCode"
+                  value={value.postalCode}
+                  onChange={handleChange("postalCode")}
+                  label="Postal Code"
+                  />
+                </FormControl>
+              </div>
+              <div>
+                  <Button 
+                  color="custom" 
+                  variant="contained" 
+                  sx={{m:1}}
+                  onClick={() => {
+                    alert('clicked');
+                  }}
+                  >Create Account
+                  </Button>
+              </div>
+            </Box>
+          </ThemeProvider>
+        </div>
     </div>
       
     </>

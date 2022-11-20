@@ -8,6 +8,7 @@ import { Box, typography } from "@mui/system";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { db } from "../../components/authentication/firebaseConfig"
 import { doc, updateDoc } from "firebase/firestore";
+import Axios from "axios";
 
 import RenderCard from "../CauseCard.js";
 import animalshelter from "../../AnimalShelters.svg";
@@ -34,7 +35,7 @@ const Registration = () => {
   const [value, setValue] = React.useState({
     amount:"",
     creditCardNumber:"",
-    ccv:"",
+    cvc:"",
     date:"",
     postalCode:"",
   });
@@ -44,11 +45,30 @@ const Registration = () => {
   };
 
   const updateDB = async () => {
-    console.log(causesStatus);
     const userRef = doc(db, "user", user.uid);
+    const params = {
+      credit_card_num: value.creditCardNumber,
+      expiry_date: value.date,
+      cvc: value.cvc,
+      email: user.email,
+      full_name: user.displayName
+    };
+    Axios.get("http://localhost:3001/create-user", {
+      params
+    }).then(async (response) => {
+      if (response.data.customer && response.data.payment){
+        await updateDoc(userRef, {
+          customer_id: response.data.customer.id,
+          payment_id: response.data.payment.id
+        });
+      } else {
+        // need to handle this
+      }
+    });
+    // need to handle if creating the customer and payments in stripe fail
     await updateDoc(userRef, {
       monthly_donation_goal: value.amount,
-      ccv: value.ccv,
+      cvc: value.cvc,
       credit_card_num: value.creditCardNumber,
       expiry_date: value.date,
       postal_code: value.postalCode,
@@ -61,6 +81,7 @@ const Registration = () => {
       humanitarianism: causesStatus.humanitarianism,
       poverty: causesStatus.poverty,
     });
+    // don't navigate if these fail ^
     navigate("/dashboard")
   }
 
@@ -143,15 +164,15 @@ const Registration = () => {
                   <FormHelperText id="outlined-expdate-helper-text">(MM/YY)</FormHelperText>
                 </FormControl>
                 <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
-                  <InputLabel htmlFor="outlined-adornment-ccv">CCV</InputLabel>
+                  <InputLabel htmlFor="outlined-adornment-cvc">cvc</InputLabel>
                   <OutlinedInput
                   fullWidth
-                  id="outlined-adornment-ccv"
-                  value={value.ccv}
-                  onChange={handleChange("ccv")}
-                  label="CCV"
+                  id="outlined-adornment-cvc"
+                  value={value.cvc}
+                  onChange={handleChange("cvc")}
+                  label="cvc"
                   />
-                  <FormHelperText id="outlined-ccv-helper-text">(4 digits)</FormHelperText>
+                  <FormHelperText id="outlined-cvc-helper-text">(4 digits)</FormHelperText>
                 </FormControl>
                 <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-postalCode">Postal Code</InputLabel>

@@ -107,7 +107,7 @@ function IndexPopup() {
             cursor:"pointer"
           }}
           onClick={() => {
-            window.open('http://10.13.167.125:3000/dashboard','_blank')
+            window.open('http://localhost:3000/dashboard','_blank')
           }}>
           View Dashboard
         </button>

@@ -21,7 +21,6 @@ export const getStyle = () => {
     return style
 }
 
-
 const renderCard = (name, image) => {
     return (
         <div>
@@ -31,11 +30,14 @@ const renderCard = (name, image) => {
 }
 
 const PlasmoInline = () => {
-    const charityOptions = ["Alberta Animal Rescue Crew Society", "JUMP Math"];
+    const charityOptions = ["Alberta Animal Rescue Crew Society", "JUMP Math", "Inn from the Cold", "Horizon Housing Society"];
     const [charity, setCharity] = useState(charityOptions[0]);
     const [donationAmount, setdonationAmount] = useState(null);
+<<<<<<< HEAD
     const [paymentLink, setPaymentLink] = useState(null);
     const [display, setDisplay] = useState(false);
+=======
+>>>>>>> 33c9135fd6aa33236d23111d3a57955e1b959f00
     const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
     const [user, setUser] = useState(null);
 
@@ -90,16 +92,23 @@ const PlasmoInline = () => {
     const sendReq = () => {
         const params = {
             donationAmount: donationAmount,
-            charity: charity
+            charity: charity,
+            email: user.email,
+            docSnap: docSnap
         };
-        Axios.get("http://localhost:3001/create-checkout-session", {
+        Axios.get("http://localhost:3001/donate", {
             params
-        }).then((response) => {
-            setPaymentLink(response.data);
-            console.log(response.data.url);
-            window.open(response.data.url, '_blank', 'noopener,noreferrer');
-        });
+        }).then((res) => {
+            if (res.data.status == "succeeded"){
+                console.log("payment worked");
+                // update the database and increase field "total_donated"
+            } else {
+                // need to do some handling for that
+                console.log("payment failed");
+            }
+        })
     }
+
     return (
         display && user && docSnap &&
         <div className="container">

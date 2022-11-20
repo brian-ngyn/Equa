@@ -18,7 +18,7 @@ import logo from "data-base64:~assets/logo.png"
 setPersistence(firebaseAuth, browserLocalPersistence)
 
 function IndexPopup() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [user, setUser] = useState<User>(null)
   const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
 
@@ -33,7 +33,6 @@ function IndexPopup() {
     chrome.identity.getAuthToken({ interactive: true }, async function (token) {
       if (chrome.runtime.lastError || !token) {
         console.error(chrome.runtime.lastError)
-        setIsLoading(false)
         return
       }
       if (token) {
@@ -52,6 +51,7 @@ function IndexPopup() {
     try {
       var response = await getDoc(ref);
       setdocSnap(response.data());
+      setIsLoading(false)
     } catch (error) {
       console.error(error);
     }
@@ -75,9 +75,17 @@ function IndexPopup() {
     setUserID();
   }, [user]);
 
+  if (isLoading){
+    return (
+      <div style={{display:"flex", justifyContent:"center",alignItems:"center",height:"450px",width:"100%"}}>
+        Loading...
+      </div>
+    )
+  }
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", padding: 16, textAlign:"center"}}>
-      <img src={logo} alt="logo"></img>
+    <div style={{ display: "flex", flexDirection: "column", padding: 16, textAlign:"center", alignItems:"center", height:"450px"}}>
+      <img src={logo} alt="logo" style={{width:"75%"}}></img>
       <h1 style={{
         color:"#ffffff",
         fontFamily: 'Fredoka One', 
@@ -104,7 +112,8 @@ function IndexPopup() {
             borderRadius:"20px", 
             borderStyle:"hidden",
             height:"45px",
-            cursor:"pointer"
+            cursor:"pointer",
+            width:"200px"
           }}
           onClick={() => {
             window.open('http://localhost:3000/dashboard','_blank')

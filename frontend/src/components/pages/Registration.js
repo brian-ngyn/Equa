@@ -137,6 +137,7 @@ const Registration = () => {
                     <InputAdornment position="start">$</InputAdornment>
                   }
                   label="Amount"
+                  inputProps={ {min: 1 }}
                   />
                 </FormControl>
               </div>
@@ -149,6 +150,7 @@ const Registration = () => {
                   value={value.creditCardNumber}
                   onChange={handleChange("creditCardNumber")}
                   label="Credit Card Number"
+                  inputProps={{ maxLength: 16 }}
                   />
                 </FormControl>
               </div>
@@ -161,8 +163,9 @@ const Registration = () => {
                   value={value.date}
                   onChange={handleChange("date")}
                   label="Exp. Date"
+                  inputProps={{ maxLength: 4 }}
                   />
-                  <FormHelperText id="outlined-expdate-helper-text">(MM/YY)</FormHelperText>
+                  <FormHelperText id="outlined-expdate-helper-text">(MMYY)</FormHelperText>
                 </FormControl>
                 <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-cvc">cvc</InputLabel>

@@ -149,14 +149,16 @@ const Registration = () => {
                     Amount
                   </InputLabel>
                   <OutlinedInput
-                    color="custom"
-                    id="outlined-adornment-amount"
-                    value={value.amount}
-                    onChange={handleChange("amount")}
-                    startAdornment={
-                      <InputAdornment position="start">$</InputAdornment>
-                    }
-                    label="Amount"
+                  color="custom"
+                  id="outlined-adornment-amount"
+                  value={value.amount}
+                  onChange={handleChange("amount")}
+                  startAdornment={
+                    <InputAdornment position="start">$</InputAdornment>
+                  }
+                  label="Amount"
+                  inputProps={ {min: 1 }}
+
                   />
                 </FormControl>
               </div>
@@ -170,11 +172,13 @@ const Registration = () => {
                     Credit Card Number
                   </InputLabel>
                   <OutlinedInput
-                    color="custom"
-                    id="outlined-adornment-creditCardNumber"
-                    value={value.creditCardNumber}
-                    onChange={handleChange("creditCardNumber")}
-                    label="Credit Card Number"
+                  color="custom"
+                  id="outlined-adornment-creditCardNumber"
+                  value={value.creditCardNumber}
+                  onChange={handleChange("creditCardNumber")}
+                  label="Credit Card Number"
+                  inputProps={{ maxLength: 16 }}
+
                   />
                 </FormControl>
               </div>
@@ -184,15 +188,16 @@ const Registration = () => {
                     Exp. Date
                   </InputLabel>
                   <OutlinedInput
-                    color="custom"
-                    id="outlined-adornment-date"
-                    value={value.date}
-                    onChange={handleChange("date")}
-                    label="Exp. Date"
+
+                  color="custom"
+                  id="outlined-adornment-date"
+                  value={value.date}
+                  onChange={handleChange("date")}
+                  label="Exp. Date"
+                  inputProps={{ maxLength: 4 }}
                   />
-                  <FormHelperText id="outlined-expdate-helper-text">
-                    (MMYY)
-                  </FormHelperText>
+                  <FormHelperText id="outlined-expdate-helper-text">(MMYY)</FormHelperText>
+
                 </FormControl>
                 <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-cvc">cvc</InputLabel>

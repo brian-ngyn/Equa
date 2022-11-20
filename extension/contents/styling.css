@@ -7,4 +7,17 @@
     padding:20px;
     right:20px;
     top:20px;
+    overflow-y: scroll;
+}
+
+.card .description {
+    display: none;
+  }
+
+.card:hover .cover {
+display: none;
+}
+
+.card:hover .description {
+display: inline;
 }

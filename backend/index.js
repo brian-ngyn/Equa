@@ -11,7 +11,7 @@ app.use(express.static("./public"));
 const stripe = require("stripe")("sk_test_51M5zteHTzGbdWjdPvMC9qGehWV3D4RpHgMMaIoUAnmzYxIcNFkp2X9QNejZz8KSBPXtL7e8fc6wRb1HRU8Kt1LoK00zt85KI3A")
 
 app.get("/create-checkout-session", async (req, res) => {
-  
+
   const paymentMethod = await stripe.paymentMethods.create({
     type: 'card',
     card: {
@@ -20,6 +20,13 @@ app.get("/create-checkout-session", async (req, res) => {
       exp_year: 2023,
       cvc: '314',
     },
+  });
+
+  const customer = await stripe.customers.create({
+   description: "test",
+   email: "brian.nguy1en@gmail.com",
+   name: "Brian Nguyen",
+   payment_method: paymentMethod.id
   });
 
   const product = await stripe.products.create({
@@ -35,13 +42,22 @@ app.get("/create-checkout-session", async (req, res) => {
 
   // console.log(price)
 
-  const paymentLink = await stripe.paymentLinks.create({
-    line_items: [{price: price.id, quantity: 1}],
+  // const paymentLink = await stripe.paymentLinks.create({
+  //   line_items: [{price: price.id, quantity: 1}],
+  // });
+
+  const session = await stripe.checkout.sessions.create({
+    success_url: 'https://www.google.com/',
+    cancel_url: 'https://en.wikipedia.org/wiki/Main_Page',
+    customer: customer.id,
+    line_items: [
+      {price: price.id, quantity: 1},
+    ],
+    mode: 'payment',
   });
 
-  console.log(paymentLink);
-
-  res.send(paymentLink);
+  console.log(session);
+  res.send(session);
 })
 
 app.listen(3001, () => {

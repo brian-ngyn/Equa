@@ -25,7 +25,7 @@ const PlasmoInline = () => {
         <div style={{
             backgroundColor:"#FDF8EF",
             width:"500px",
-            height:"350px",
+            height:"300px",
             position:"fixed",
             boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
             padding:"20px",

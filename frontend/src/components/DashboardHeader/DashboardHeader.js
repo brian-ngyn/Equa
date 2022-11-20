@@ -4,7 +4,7 @@ import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgr
 import { useNavigate } from "react-router";
 import {Grid} from "@mui/material";
 import { styled } from '@mui/material/styles';
-
+import NavBar from "../NavBar/NavBar";
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../authentication/firebaseConfig"
 
@@ -43,6 +43,7 @@ const DashboardHeader = (props) => {
     <>
       <Grid className="bg-backdrop h-2/5 p-2 grid grid-cols-1 gap-4 place-content-center">
         <div className="w-4/5 mx-auto">
+          <NavBar />
           <Grid container className="mx-auto" style={{display:"flex", alignItems:"center"}}>
             <div className="grid h-4/6 w-1/5 grid grid-cols-1 gap-4 place-content-center" style={{display:"flex",justifyContent:"flex-end"}}>
               <img src="/assets/images/happyEarth.png" className={"h-full"} alt="Test"/>

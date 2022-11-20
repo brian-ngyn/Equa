@@ -65,7 +65,6 @@ const PlasmoInline = () => {
                 console.log("user", response.data())
             } catch (error) {
                 console.error("Doc", error);
-                alert("Please finis your signup on our website");
             }
         }
     }
@@ -76,6 +75,7 @@ const PlasmoInline = () => {
             (equa_uid) => {
                 getUserDB(equa_uid);
                 setUser(equa_uid);
+                console.log(equa_uid);
             },
             // if there are no tasks, set an empty array
             // this usually gets triggered if the method fails or returns an error
@@ -135,7 +135,7 @@ const PlasmoInline = () => {
                     className="cover"
                 ></img>
                 <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center" }}>
-                    <p className="cover" style={{ paddingLeft: "15px", fontFamily: "32px", fontWeight: "600" }}>{name}</p>
+                    <p className="cover" style={{ paddingLeft: "15px", fontFamily: "sans-serif", fontWeight: "600" }}>{name}</p>
                     {selected == name ? (
                         <img
                             src={checkmark}
@@ -177,7 +177,7 @@ const PlasmoInline = () => {
     }
 
     return (
-        display && user && docSnap &&
+        user && display &&
         <div className="container">
             <div style={{
                 display: "flex",
@@ -194,6 +194,9 @@ const PlasmoInline = () => {
                     }}>
                         Hi, {user.displayName}
                     </h1>
+                    
+                    {docSnap &&
+                    <>
                     <p style={{
                         marginTop: "0"
                     }}>
@@ -205,8 +208,30 @@ const PlasmoInline = () => {
                     }}>
                         ${docSnap.total_donated}/${docSnap.monthly_donation_goal}
                     </p>
+                    </>}
                 </div>
             </div>
+            {!docSnap && 
+                    <div style={{paddingTop: 20, textAlign:"center", alignItems:"center", alignContent:"center"}}>
+                        <p>We would like to learn more about your top charities so we can maximise your contributions. Click the button below to finish the process, and then reload this page.  </p>
+                        <button style={{
+                            backgroundColor:"#3c1518", 
+                            fontFamily:"sans-serif", 
+                            color:"#ffffff", 
+                            borderRadius:"10px", 
+                            borderStyle:"hidden",
+                            height:"35px",
+                            cursor:"pointer"
+                        }}
+                        onClick={() => {
+                            window.open('http://localhost:3000/dashboard','_blank')
+                        }}>
+                        Finish Signup
+                        </button>
+                        </div>
+                        }
+            {docSnap &&
+            <>
             <p style={{ paddingLeft: "10px" }}>
                 You’re ${docSnap.monthly_donation_goal - docSnap.total_donated} away from your monthly goal - would you like to make a donation to one of the charities below?
             </p>
@@ -257,7 +282,9 @@ const PlasmoInline = () => {
                     Donate!
                 </button>
             </div>
+            </>}
         </div>
+        
     )
 };
 

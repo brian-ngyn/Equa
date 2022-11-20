@@ -1,11 +1,21 @@
 import React, { useState } from "react";
+import { useUserAuth } from "../components/authentication/context/UserAuthContext";
 
-function RenderCard(name, image) {
+function RenderCard(name, alt_name, image) {
   const [selected, setSelected] = React.useState(false);
+  const { causesStatus } = useUserAuth();
 
   function changeSelected() {
-    selected ? setSelected(false) : setSelected(true);
+    if (selected){
+      setSelected(false);
+      causesStatus[name] = false;
+    }
+    else {
+      setSelected(true);
+      causesStatus[name] = true;
+    }
   }
+
   return (
     <button onClick={changeSelected}>
       <div
@@ -24,7 +34,7 @@ function RenderCard(name, image) {
           </div>
           {/* <div className="mt-auto"> */}
           <p className="mt-auto mb-4 font-body text-xl font-semibold inset-x-0 bottom-0">
-            {name}
+            {alt_name}
           </p>
           {/* </div> */}
         </div>

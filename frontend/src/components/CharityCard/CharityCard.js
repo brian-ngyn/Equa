@@ -10,7 +10,7 @@ const CharityCard = (props) => {
   const {charity} = props;
   return (
     <>
-      <div className="w-full h-28 grid grid-cols-5 mx-auto bg-backdrop drop-shadow-xl rounded-xl p-2 m-2 mb-4 place-content-center">
+      <div className="w-full cursor-pointer h-28 grid grid-cols-5 mx-auto bg-backdrop drop-shadow-xl rounded-xl p-2 m-2 mb-4 place-content-center">
         <div className="grid w-24 grid col-span-1 gap-4 place-content-center ml-3">
           <img src={charity.image} />
         </div>

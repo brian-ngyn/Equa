@@ -45,7 +45,7 @@ const ExplorePartners = (props) => {
         
       {partners.map((partner) => (
 
-          <div key={partner.name} className="grid w-2/3 grid-cols-1 gap-4 place-content-center">
+          <div key={partner.name} className="cursor-pointer grid w-2/3 grid-cols-1 gap-4 place-content-center">
             <a href={partner.link}><img src={partner.image} className={"h-full"} alt={partner.name}/></a>
           </div>
 

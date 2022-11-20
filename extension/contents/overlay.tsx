@@ -6,12 +6,11 @@ import logo from "data-base64:~assets/logo.png"
 import cssText from "data-text:~/contents/styling.css"
 import type { User } from "firebase/auth"
 import { Storage } from "@plasmohq/storage";
-import { getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
+import { collection, getDocs, getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
 import type { PlasmoContentScript } from "plasmo"
 import Axios from "axios";
 import { firebaseAuth, db } from "../firebase"
 import checkoutUrls from "./stores.js"
-import CharityCard from './CharityCard'
 export const config: PlasmoContentScript = {
     matches: ["https://*/*"],
     css: ["font.css"]
@@ -24,36 +23,38 @@ export const getStyle = () => {
     return style;
 };
 
-
-const charities = [
-    {
-        name: "Charity 1",
-        description: "adsfasdfasdf",
-        image: "asdfasdf",
-    },
-    {
-        name: "Charity 2",
-        description: "adsfasdfasdf",
-        image: "asdfasdf",
-    },
-    {
-        name: "Charity 3",
-        description: "adsfasdfasdf",
-        image: "asdfasdf",
-    },
-    {
-        name: "Charity 4",
-        description: "adsfasdfasdf",
-        image: "asdfasdf",
-    },
-];
-
 const PlasmoInline = () => {
     const [donationAmount, setdonationAmount] = useState(null);
     const [display, setDisplay] = useState(false);
     const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
     const [user, setUser] = useState(null);
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState("2");
+    const [charities, setCharities] = useState([]);
+
+    const getCharities = async () => {
+      const querySnapshot = await getDocs(collection(db, "charities"));
+      const causesMap = {
+          "Educaiton": "education",
+          "Poverty": "poverty",
+          "Food Scarcity": "food_scarcity",
+          "Homelessness": "homelessness",
+          "Humanitarianism": "humanitarianism",
+          "Animals":"animal_shelter"
+      }
+      setCharities([]);
+      querySnapshot.forEach((doc) => {
+          const property = causesMap[doc.data().category];
+          if (docSnap[property]){
+              setCharities((prev) => [...prev, doc.data()]);
+          }
+        console.log("charity", doc.data())
+
+      });
+    }
+
+    useEffect(() => {
+        getCharities();
+      }, [docSnap]);
 
     const getUserDB = async (equa_uid) => {
         if (equa_uid) {
@@ -61,6 +62,7 @@ const PlasmoInline = () => {
                 const ref = doc(db, "user", equa_uid.uid);
                 var response = await getDoc(ref);
                 setdocSnap(response.data());
+                console.log("user", response.data())
             } catch (error) {
                 console.error("Doc", error);
                 alert("Please finis your signup on our website");
@@ -128,7 +130,7 @@ const PlasmoInline = () => {
                 }}
             >
                 <img
-                    src="https://aarcs.ca/wp-content/uploads/2020/05/aarcs_sq.png"
+                    src={image}
                     style={{ height: "100%" }}
                     className="cover"
                 ></img>

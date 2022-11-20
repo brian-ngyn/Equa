@@ -10,7 +10,7 @@ const ImpactCard = (props) => {
   const {impacts} = props;
   return (
     <>
-      <div className="w-9/12 h-24 grid grid-cols-6 mx-auto bg-backdrop rounded-xl p-2 m-2 mb-4" style={{boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
+      <div className="w-9/12 h-24 grid grid-cols-6 mx-auto bg-backdrop rounded-xl p-2 m-2 mb-4" style={{boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px", marginBottom:"30"}}>
         <div className="grid w-24 grid grid-cols-1 gap-4 place-content-center ml-3">
           <img src="/assets/charity1.svg" />
         </div>

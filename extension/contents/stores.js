@@ -4,7 +4,7 @@ var checkoutUrls = [
     "https://www.ebay.com/checkout/",
     "https://www.walmart.com/checkout/",
     "https://www.target.com/co-cart",
-    "https://www.bestbuy.com/checkout/r/fast-track",
+    "https://www.bestbuy.com/checkout/r/",
     "https://www.costco.com/CheckoutCartDisplayView",
     "https://secure.newegg.com/Shopping/ShoppingCart.aspx",
     "https://www.overstock.com/checkout/",

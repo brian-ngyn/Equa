@@ -17,6 +17,7 @@ var checkoutUrls = [
     "https://www.marks.com/en/checkout-shipping.html",
     "https://www.sportchek.ca/shopping-cart.html",
     "https://www.walmart.ca/checkout",
+    "https://www.nordstrom.ca/checkout"
 ];
 
 export default checkoutUrls;

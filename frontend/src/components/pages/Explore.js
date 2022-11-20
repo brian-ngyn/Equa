@@ -25,7 +25,6 @@ const Explore = () => {
           <br/><br/>
           <h1 className="font-title text-3xl text-primary">Browse Charities</h1>
           <ExploreCharities/>
-          <ExploreCharities/>
         </Grid>
       </div>
       

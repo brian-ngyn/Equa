@@ -4,6 +4,8 @@ import Grid from "@mui/material/Grid";
 import TextField from '@mui/material/TextField';
 import logo from "data-base64:~assets/logo.png"
 import x from "data-base64:~assets/x.png"
+import fail from "data-base64:~assets/fail.png"
+import green_check from "data-base64:~assets/green_check.png"
 import cssText from "data-text:~/contents/styling.css"
 import type { User } from "firebase/auth"
 import { Storage } from "@plasmohq/storage";
@@ -31,7 +33,9 @@ const PlasmoInline = () => {
     const [user, setUser] = useState(null);
     const [selected, setSelected] = useState("");
     const [charities, setCharities] = useState([]);
-    const [close, setClose] = useState(false);
+    const [close, setClose] = useState(true);
+    const [status, setStatus] = useState("");
+    const [processing, setProcessing] = useState(false);
 
     const getCharities = async () => {
       const querySnapshot = await getDocs(collection(db, "charities"));
@@ -52,6 +56,7 @@ const PlasmoInline = () => {
         console.log("charity", doc.data())
 
       });
+      setClose(false);
     }
 
     useEffect(() => {
@@ -99,13 +104,19 @@ const PlasmoInline = () => {
         const partners = ["sportchek", "walmart", "marks"];
         const totValue = parseFloat(donationAmount) * 2;
         let isPartner = false;
+        // Determine if it is checkout;
+        partners.some(element => {
+            if (window.location.href.toLowerCase().includes(element.toLowerCase())) {
+                isPartner = true;
+            }
+        })
         if (!isPartner) {
             return null
         }
         return (
             <div style={{ textAlign: "center", paddingTop: "20px", paddingBottom: "10px" }}>
                 <strong>
-                    Walmart will match this donation for a total donation of ${totValue}!
+                    Your donation will be matched for a total donation of ${totValue}!
                 </strong>
             </div>
         )
@@ -160,6 +171,7 @@ const PlasmoInline = () => {
     };
 
     const sendReq = () => {
+        setProcessing(true);
         const params = {
             donationAmount: donationAmount,
             charity: selected,
@@ -171,16 +183,59 @@ const PlasmoInline = () => {
         }).then((res) => {
             if (res.data.status == "succeeded") {
                 console.log("payment worked");
+                setStatus("success")
                 // update the database and increase field "total_donated"
             } else {
                 // need to do some handling for that
                 console.log("payment failed");
+                setStatus("fail")
             }
+            setProcessing(false);
         })
     }
 
     if (close){
         return
+    }
+
+    if (status==="success"){
+        return(
+            <div className="container">
+                <div style={{
+                    display: "flex",
+                    width: "100%",
+                    gap:"20px",
+                    justifyContent:"center",
+                    alignItems:"center",
+                    flexDirection:"column",
+                    height:"100%"
+                }}>
+                    <img src={green_check} style={{width:"100px", height:"100px"}}></img>
+                    SUCCESS!
+                </div>
+                <img src={x} style={{position:"absolute", top:"20px", left:"20px", width:"10px", height:"10px"}} onClick={()=>{setClose(true)}}></img>
+            </div>
+        )
+    }
+
+    if (status==="fail"){
+        return(
+            <div className="container">
+                <div style={{
+                    display: "flex",
+                    width: "100%",
+                    gap:"20px",
+                    justifyContent:"center",
+                    alignItems:"center",
+                    flexDirection:"column",
+                    height:"100%"
+                }}>
+                    <img src={fail} style={{width:"100px", height:"100px"}}></img>
+                    Could not process donation
+                </div>
+                <img src={x} style={{position:"absolute", top:"20px", left:"20px", width:"10px", height:"10px"}} onClick={()=>{setClose(true)}}></img>
+            </div>
+        )
     }
 
     return (
@@ -291,6 +346,11 @@ const PlasmoInline = () => {
                     Donate!
                 </button>
             </div>
+            {processing &&
+                <div style={{textAlign:"center"}}>
+                    Processing...
+                </div>
+            }
             </>}
             <img src={x} style={{position:"absolute", top:"20px", left:"20px", width:"10px", height:"10px"}} onClick={()=>{setClose(true)}}></img>
         </div>

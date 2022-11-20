@@ -18,7 +18,6 @@ const ExploreCharities = (props) => {
     setCharities([]);
     querySnapshot.forEach((doc) => {
       setCharities((prev) => [...prev, doc.data()]);
-      console.log("D", charities);
     });
   }
 

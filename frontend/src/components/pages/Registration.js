@@ -82,7 +82,6 @@ const Registration = () => {
       poverty: causesStatus.poverty,
     });
     // don't navigate if these fail ^
-    getUserDB();
     navigate("/dashboard")
   }
 

@@ -13,10 +13,11 @@ module.exports = {
       'secondary': '#83AA9d',
       'additional': '#FFFFFF',
       'typeface': '#3c1518',
+      'white': '#ffffff',
     },
     fontFamily: {
-      body: ['Fredoka One', 'sans-serif'],
-      title: ['Fredoka', , 'sans-serif']
+      title: ['Fredoka One', 'sans-serif'],
+      body: ['Fredoka', 'sans-serif']
       }
   },
   plugins: [],

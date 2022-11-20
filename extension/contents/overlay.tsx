@@ -9,7 +9,7 @@ import green_check from "data-base64:~assets/green_check.png"
 import cssText from "data-text:~/contents/styling.css"
 import type { User } from "firebase/auth"
 import { Storage } from "@plasmohq/storage";
-import { collection, getDocs, getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, updateDoc, doc, DocumentData } from "firebase/firestore";
 import type { PlasmoContentScript } from "plasmo"
 import Axios from "axios";
 import { firebaseAuth, db } from "../firebase"
@@ -180,11 +180,19 @@ const PlasmoInline = () => {
         };
         Axios.get("http://localhost:3001/donate", {
             params
-        }).then((res) => {
+        }).then(async (res) => {
             if (res.data.status == "succeeded") {
                 console.log("payment worked");
-                setStatus("success")
-                // update the database and increase field "total_donated"
+                setStatus("success");
+                const userRef = doc(db, "user", user.uid);
+                await updateDoc(userRef, {
+                    total_donated: (parseInt(docSnap.total_donated) + parseInt(donationAmount)).toString(),
+                });
+                const addDocRef = await addDoc(collection(db, "donations"), {
+                    amount: donationAmount,
+                    charity: selected,
+                    user_id: user.uid
+                  });
             } else {
                 // need to do some handling for that
                 console.log("payment failed");
@@ -211,7 +219,7 @@ const PlasmoInline = () => {
                     height:"100%"
                 }}>
                     <img src={green_check} style={{width:"100px", height:"100px"}}></img>
-                    SUCCESS!
+                    Thank you for donating!
                 </div>
                 <img src={x} style={{position:"absolute", top:"20px", left:"20px", width:"10px", height:"10px"}} onClick={()=>{setClose(true)}}></img>
             </div>

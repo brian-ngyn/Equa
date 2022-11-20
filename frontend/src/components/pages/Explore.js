@@ -17,7 +17,7 @@ const Explore = () => {
     <>
       
       <div className="bg-backdrop h-screen">
-        <Grid className="w-4/5 mx-auto h-2/5 pt-10 text-left" style={{maxWidth: 750}}>
+        <Grid className="w-4/5 mx-auto h-2/5 pt-10 text-left" style={{maxWidth: 750, maxHeight: 195}}>
           <NavBar />
           <h1 className="font-title text-3xl text-primary">Partners</h1>
           <p className="font-body text-lg text-typeface">The following companies are matching donations this month. Shop here to double your impact!</p>

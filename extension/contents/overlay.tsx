@@ -63,7 +63,6 @@ const PlasmoInline = () => {
                 setdocSnap(response.data());
             } catch (error) {
                 console.error("Doc", error);
-                alert("Please finis your signup on our website");
             }
         }
     }
@@ -134,7 +133,7 @@ const PlasmoInline = () => {
                     className="cover"
                 ></img>
                 <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center" }}>
-                    <p className="cover" style={{ paddingLeft: "15px", fontFamily: "32px", fontWeight: "600" }}>{name}</p>
+                    <p className="cover" style={{ paddingLeft: "15px", fontFamily: "sans-serif", fontWeight: "600" }}>{name}</p>
                     {selected == name ? (
                         <img
                             src={checkmark}
@@ -215,7 +214,7 @@ const PlasmoInline = () => {
                         <p>We would like to learn more about your top charities so we can maximise your contributions. Click the button below to finish the process, and then reload this page.  </p>
                         <button style={{
                             backgroundColor:"#3c1518", 
-                            fontFamily:"Fredoka", 
+                            fontFamily:"sans-serif", 
                             color:"#ffffff", 
                             borderRadius:"10px", 
                             borderStyle:"hidden",

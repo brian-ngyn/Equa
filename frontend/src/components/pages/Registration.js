@@ -122,14 +122,14 @@ const Registration = () => {
           <ThemeProvider theme={theme}>
 
             <Box>
-              <div class="m-1 inline-flex text-typeface font-body">
-                <div class="mt-5 mr-10">
+              <div class="m-1 inline-flex text-typeface font-body w-full justify-center">
+                <div class="mt-5 mr-20">
                   Now, enter your monthly donation goal 
                 </div>
-                <FormControl sx={{m: 1, width: '25ch'}} variant="outlined">
+                <FormControl sx={{m: 1, ml:11, width: '25ch'}} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                   <OutlinedInput
-                  fullWidth
+                  color="custom"
                   id="outlined-adornment-amount"
                   value={value.amount}
                   onChange={handleChange("amount")}
@@ -144,6 +144,7 @@ const Registration = () => {
                 <FormControl fullWidth sx={{m:1, width: '79ch'}} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-creditCardNumber">Credit Card Number</InputLabel>
                   <OutlinedInput
+                  color="custom"
                   id="outlined-adornment-creditCardNumber"
                   value={value.creditCardNumber}
                   onChange={handleChange("creditCardNumber")}
@@ -155,7 +156,7 @@ const Registration = () => {
                 <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-date">Exp. Date</InputLabel>
                   <OutlinedInput
-                  fullWidth
+                  color="custom"
                   id="outlined-adornment-date"
                   value={value.date}
                   onChange={handleChange("date")}
@@ -166,18 +167,18 @@ const Registration = () => {
                 <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-cvc">cvc</InputLabel>
                   <OutlinedInput
-                  fullWidth
+                  color="custom"
                   id="outlined-adornment-cvc"
                   value={value.cvc}
                   onChange={handleChange("cvc")}
                   label="cvc"
                   />
-                  <FormHelperText id="outlined-cvc-helper-text">(4 digits)</FormHelperText>
+                  <FormHelperText id="outlined-cvc-helper-text">(3 digits)</FormHelperText>
                 </FormControl>
                 <FormControl sx={{m:1, width: '25ch'}} variant="outlined">
                   <InputLabel htmlFor="outlined-adornment-postalCode">Postal Code</InputLabel>
                   <OutlinedInput
-                  fullWidth
+                  color="custom"
                   id="outlined-adornment-postalCode"
                   value={value.postalCode}
                   onChange={handleChange("postalCode")}

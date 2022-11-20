@@ -1,6 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@300&display=swap');
+body{
+    font-family: sans-serif;
+}
+h1{
+    font-family: sans-serif;
+}
 .dashboard-bttn {
     background-color:#3C1518;
-    font-family: Fredoka;
+    font-family: sans-serif;
     color:#ffffff;
     border-radius: 25px;
 }

@@ -40,12 +40,12 @@ const PlasmoInline = () => {
     const getCharities = async () => {
       const querySnapshot = await getDocs(collection(db, "charities"));
       const causesMap = {
-          "Educaiton": "education",
+          "Education": "education",
           "Poverty": "poverty",
           "Food Scarcity": "food_scarcity",
           "Homelessness": "homelessness",
           "Humanitarianism": "humanitarianism",
-          "Animals":"animal_shelter"
+          "Animals": "animal_shelter"
       }
       setCharities([]);
       querySnapshot.forEach((doc) => {

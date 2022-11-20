@@ -1,6 +1,6 @@
 {
   "name": "extension",
-  "displayName": "Extension",
+  "displayName": "Equa",
   "version": "0.0.0",
   "description": "A basic Plasmo extension.",
   "author": "briannguyen",
@@ -39,8 +39,11 @@
     "host_permissions": [
       "https://*/*"
     ],
+    
     "permissions": [
-      "identity"
+      "identity",
+      "activeTab",
+      "currentWindow"
     ],
     "oauth2": {
       "client_id": "214784846774-433tv8araiib36a0p1ue3gl5hmkl07a8.apps.googleusercontent.com",

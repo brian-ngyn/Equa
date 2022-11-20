@@ -7,9 +7,10 @@ import type { PlasmoContentScript } from "plasmo"
 import Axios from "axios";
 import { firebaseAuth, db } from "../firebase"
 import { useEffect, useState } from "react"
+import checkoutUrls from "./stores.js"
 import CharityCard from './CharityCard'
 export const config: PlasmoContentScript = {
-    matches: ["https://www.plasmo.com/*"],
+    matches: ["https://*/*"],
     css: ["font.css"]
 }
 
@@ -20,7 +21,6 @@ export const getStyle = () => {
     return style
 }
 
-
 const renderCard = (name, image) => {
     return (
         <div>
@@ -30,24 +30,32 @@ const renderCard = (name, image) => {
 }
 
 const PlasmoInline = () => {
-    const charityOptions = ["Alberta Animal Rescue Crew Society", "JUMP Math"];
+    const charityOptions = ["Alberta Animal Rescue Crew Society", "JUMP Math", "Inn from the Cold", "Horizon Housing Society"];
     const [charity, setCharity] = useState(charityOptions[0]);
     const [donationAmount, setdonationAmount] = useState(null);
+<<<<<<< HEAD
     const [paymentLink, setPaymentLink] = useState(null);
+    const [display, setDisplay] = useState(false);
+=======
+>>>>>>> 33c9135fd6aa33236d23111d3a57955e1b959f00
     const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null);
+
 
 
     const getUserDB = async (equa_uid) => {
-        const ref = doc(db, "user", equa_uid.uid);
-        try {
-            var response = await getDoc(ref);
-            setdocSnap(response.data());
-        } catch (error) {
-            console.error("Doc", error);
+        if (equa_uid) {
+            try {
+                const ref = doc(db, "user", equa_uid.uid);
+                var response = await getDoc(ref);
+                setdocSnap(response.data());
+            } catch (error) {
+                console.error("Doc", error);
+                alert("Please finis your signup on our website");
+            }
         }
     }
-    
+
     // JUST IN HERE TO SHOW VALUES OF DOC SNAP
     useEffect(() => {
         console.log("Doc Snap", docSnap);
@@ -59,7 +67,7 @@ const PlasmoInline = () => {
 
 
     useEffect(() => {
-        // fetch tasks from the local storage
+        // fetch UID from the local storage
         storage.get("equa_uid").then(
             (equa_uid) => {
                 getUserDB(equa_uid);
@@ -68,26 +76,41 @@ const PlasmoInline = () => {
             // if there are no tasks, set an empty array
             // this usually gets triggered if the method fails or returns an error
             (() => console.log("Get UID Error"))
-        )
+        );
+
+        // Determine if it is checkout;
+        checkoutUrls.some(element => {
+            if (window.location.href.toLowerCase().includes(element.toLowerCase())) {
+              setDisplay(true);
+            }})
+
+
     },
-       [] // run once on moun[]
+        [] // run once on moun[]
     );
 
     const sendReq = () => {
         const params = {
             donationAmount: donationAmount,
-            charity: charity
+            charity: charity,
+            email: user.email,
+            docSnap: docSnap
         };
-        Axios.get("http://localhost:3001/create-checkout-session", {
+        Axios.get("http://localhost:3001/donate", {
             params
-        }).then((response) => {
-            setPaymentLink(response.data);
-            console.log(response.data.url);
-            window.open(response.data.url, '_blank', 'noopener,noreferrer');
-        });
+        }).then((res) => {
+            if (res.data.status == "succeeded"){
+                console.log("payment worked");
+                // update the database and increase field "total_donated"
+            } else {
+                // need to do some handling for that
+                console.log("payment failed");
+            }
+        })
     }
+
     return (
-        user && docSnap && 
+        display && user && docSnap &&
         <div className="container">
             <div style={{
                 display: "flex",
@@ -109,14 +132,7 @@ const PlasmoInline = () => {
                     }}>
                         Your monthly donations
                     </p>
-                    <div style={{
-                        width: "100%",
-                        height: "25px",
-                        backgroundColor: "red",
-                        marginBottom: "10px",
-                        borderRadius: "50px",
-                    }}>
-                    </div>
+                    
                     <p style={{
                         marginTop: "0"
                     }}>

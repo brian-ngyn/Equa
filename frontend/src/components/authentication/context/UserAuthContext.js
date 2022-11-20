@@ -49,7 +49,9 @@ export function UserAuthContextProvider({children}) {
                     const docRef = setDoc(ref, { new_sign_up: true, total_donated: 0, homelessness: false, 
                                                     education: false, animal_shelter: false, humanitarianism: false, 
                                                     poverty: false, food_scarcity: false, monthly_donation_goal: 0,
-                                                    credit_card_num: 0, ccv: 0, expiry_date: 0, postal_code: ""});
+                                                    credit_card_num: 0, cvc: 0, expiry_date: 0, postal_code: "",
+                                                    customer_id: "", payment_id: ""
+                                                });
                     console.log("User doccument written");
                 }
                 else {

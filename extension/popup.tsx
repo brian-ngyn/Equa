@@ -100,7 +100,7 @@ function IndexPopup() {
           onClick={() => {
             window.open('http://10.13.167.125:3000/dashboard','_blank')
           }}>
-          View Dasboard
+          View Dashboard
         </button>
       )}
       <div>

@@ -10,12 +10,12 @@ const ImpactCard = (props) => {
   const {impacts} = props;
   return (
     <>
-      <div className="w-9/12 h-24 grid grid-cols-6 mx-auto bg-backdrop rounded-xl p-2 m-2 mb-4">
+      <div className="w-9/12 h-24 grid grid-cols-6 mx-auto bg-backdrop rounded-xl p-2 m-2 mb-4" style={{boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>
         <div className="grid w-24 grid grid-cols-1 gap-4 place-content-center ml-3">
           <img src="/assets/charity1.svg" />
         </div>
 
-        <div className="text-left rounded-md col-span-4">
+        <div className="text-left rounded-md col-span-4" style={{display:"flex", flexDirection:"column",justifyContent:"center"}}>
           <p className="font-body text-xl text-typeface m-0">{impacts.charity_name}</p>
           <p className="font-body text-md text-typeface"> {impacts.activity_description}</p>
         </div>

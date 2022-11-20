@@ -45,7 +45,7 @@ const DashboardDetails = (props) => {
         <div className="w-4/5 mx-auto top-1/4">
           <div className="grid h-4/6 text-left p-6">
             <h1 className="font-title text-4xl text-white">Your Impact</h1>
-            <h1 className="font-body text-md text-white">100% of every donation you make goes straight to the selected charity.  View the activity of charities you’ve donated to below - they couldn’t have done this without you!</h1>
+            <h1 className="font-body text-lg text-white">100% of every donation you make goes straight to the selected charity.  View the activity of charities you’ve donated to below - they couldn’t have done this without you!</h1>
           </div>
 
 

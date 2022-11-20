@@ -13,7 +13,10 @@ var checkoutUrls = [
     "https://www.macys.com/checkout/checkout.jsp",
     "https://shop.nordstrom.com/checkout",
     "https://www.dillards.com/checkout/checkout.jsp",
-    "https://www.jcpenney.com/checkout/checkout.jsp"
+    "https://www.jcpenney.com/checkout/checkout.jsp",
+    "https://www.marks.com/en/checkout-shipping.html",
+    "https://www.sportchek.ca/shopping-cart.html",
+    "https://www.walmart.ca/checkout",
 ];
 
 export default checkoutUrls;

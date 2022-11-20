@@ -7,10 +7,10 @@ import type { PlasmoContentScript } from "plasmo"
 import Axios from "axios";
 import { firebaseAuth, db } from "../firebase"
 import { useEffect, useState } from "react"
+import checkoutUrls from "./stores.js"
 import CharityCard from './CharityCard'
-import { LinearProgress, linearProgressClasses, styled } from "@mui/material";
 export const config: PlasmoContentScript = {
-    matches: ["https://www.plasmo.com/*"],
+    matches: ["https://*/*"],
     css: ["font.css"]
 }
 
@@ -35,20 +35,10 @@ const PlasmoInline = () => {
     const [charity, setCharity] = useState(charityOptions[0]);
     const [donationAmount, setdonationAmount] = useState(null);
     const [paymentLink, setPaymentLink] = useState(null);
+    const [display, setDisplay] = useState(false);
     const [docSnap, setdocSnap] = useState<DocumentData>(undefined);
     const [user, setUser] = useState(null);
 
-    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-        height: 20,
-        borderRadius: 10,
-        [`&.${linearProgressClasses.colorPrimary}`]: {
-            backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-        },
-        [`& .${linearProgressClasses.bar}`]: {
-            borderRadius: 0,
-            backgroundColor: theme.palette.mode === 'light' ? '#3c1518' : '#308fe8',
-        },
-    }));
 
 
     const getUserDB = async (equa_uid) => {
@@ -75,7 +65,7 @@ const PlasmoInline = () => {
 
 
     useEffect(() => {
-        // fetch tasks from the local storage
+        // fetch UID from the local storage
         storage.get("equa_uid").then(
             (equa_uid) => {
                 getUserDB(equa_uid);
@@ -84,7 +74,15 @@ const PlasmoInline = () => {
             // if there are no tasks, set an empty array
             // this usually gets triggered if the method fails or returns an error
             (() => console.log("Get UID Error"))
-        )
+        );
+
+        // Determine if it is checkout;
+        checkoutUrls.some(element => {
+            if (window.location.href.toLowerCase().includes(element.toLowerCase())) {
+              setDisplay(true);
+            }})
+
+
     },
         [] // run once on moun[]
     );
@@ -103,7 +101,7 @@ const PlasmoInline = () => {
         });
     }
     return (
-        user && docSnap &&
+        display && user && docSnap &&
         <div className="container">
             <div style={{
                 display: "flex",
@@ -125,7 +123,7 @@ const PlasmoInline = () => {
                     }}>
                         Your monthly donations
                     </p>
-                    <BorderLinearProgress variant="determinate" value={50} />
+                    
                     <p style={{
                         marginTop: "0"
                     }}>

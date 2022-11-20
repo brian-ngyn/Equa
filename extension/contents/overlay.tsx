@@ -6,7 +6,7 @@ import logo from "data-base64:~assets/logo.png"
 import cssText from "data-text:~/contents/styling.css"
 import type { User } from "firebase/auth"
 import { Storage } from "@plasmohq/storage";
-import { getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
+import { doc, DocumentData, getDoc } from "firebase/firestore";
 import type { PlasmoContentScript } from "plasmo"
 import Axios from "axios";
 import { firebaseAuth, db } from "../firebase"
@@ -74,6 +74,7 @@ const PlasmoInline = () => {
             (equa_uid) => {
                 getUserDB(equa_uid);
                 setUser(equa_uid);
+                console.log(equa_uid);
             },
             // if there are no tasks, set an empty array
             // this usually gets triggered if the method fails or returns an error
@@ -175,7 +176,7 @@ const PlasmoInline = () => {
     }
 
     return (
-        display && user && docSnap &&
+        user && display &&
         <div className="container">
             <div style={{
                 display: "flex",
@@ -192,6 +193,9 @@ const PlasmoInline = () => {
                     }}>
                         Hi, {user.displayName}
                     </h1>
+                    
+                    {docSnap &&
+                    <>
                     <p style={{
                         marginTop: "0"
                     }}>
@@ -203,8 +207,30 @@ const PlasmoInline = () => {
                     }}>
                         ${docSnap.total_donated}/${docSnap.monthly_donation_goal}
                     </p>
+                    </>}
                 </div>
             </div>
+            {!docSnap && 
+                    <div style={{paddingTop: 20, textAlign:"center", alignItems:"center", alignContent:"center"}}>
+                        <p>We would like to learn more about your top charities so we can maximise your contributions. Click the button below to finish the process, and then reload this page.  </p>
+                        <button style={{
+                            backgroundColor:"#3c1518", 
+                            fontFamily:"Fredoka", 
+                            color:"#ffffff", 
+                            borderRadius:"10px", 
+                            borderStyle:"hidden",
+                            height:"35px",
+                            cursor:"pointer"
+                        }}
+                        onClick={() => {
+                            window.open('http://localhost:3000/dashboard','_blank')
+                        }}>
+                        Finish Signup
+                        </button>
+                        </div>
+                        }
+            {docSnap &&
+            <>
             <p style={{ paddingLeft: "10px" }}>
                 You’re ${docSnap.monthly_donation_goal - docSnap.total_donated} away from your monthly goal - would you like to make a donation to one of the charities below?
             </p>
@@ -255,7 +281,9 @@ const PlasmoInline = () => {
                     Donate!
                 </button>
             </div>
+            </>}
         </div>
+        
     )
 };
 

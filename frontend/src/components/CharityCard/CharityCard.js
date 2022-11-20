@@ -13,7 +13,7 @@ const CharityCard = (props) => {
   return (
     <>
       <div
-        className="w-full h-28 grid grid-cols-5 mx-auto bg-backdrop drop-shadow-xl rounded-xl p-2 m-2 mb-4 place-content-center"
+        className="w-full cursor-pointer h-28 grid grid-cols-5 mx-auto bg-backdrop drop-shadow-xl rounded-xl p-2 m-2 mb-4 place-content-center"
         onClick={() => {
           navigate("/charity", { state: { charity } });
         }}

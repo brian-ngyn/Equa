@@ -7,6 +7,7 @@ import {
   setPersistence,
   signInWithCredential
 } from "firebase/auth"
+import { Storage } from "@plasmohq/storage";
 
 import { firebaseAuth, db } from "./firebase"
 import { getDoc, setDoc, doc, DocumentData } from "firebase/firestore";
@@ -26,6 +27,7 @@ function IndexPopup() {
       await firebaseAuth.signOut()
     }
   }
+  const storage = new Storage();
 
   const onLoginClicked = () => {
     chrome.identity.getAuthToken({ interactive: true }, async function (token) {
@@ -57,14 +59,21 @@ function IndexPopup() {
 
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (user) => {
-      setIsLoading(false)
-      setUser(user)
+      setIsLoading(false);
+      setUser(user);
     })
   }, [])
 
+  async function setUserID () {
+    // save to local storage
+    await storage.set("equa_uid", user).then((res) => console.log("res", res)).catch((err) => console.log("err", err));
+  }
+  
   useEffect(() => {
     getUserDB()
-  }, [user])
+    console.log(user);
+    setUserID();
+  }, [user]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", padding: 16, textAlign:"center"}}>

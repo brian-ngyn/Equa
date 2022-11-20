@@ -23,7 +23,7 @@ function RenderCard(name, alt_name, image) {
           selected ? "border-4" : "border hover:border-b-4 hover:border-r-2"
         } rounded-xl h-64 w-52 mx-4 my-4 flex justify-center`}
       >
-        <div className="relative pb-5 px-5">
+        <div className="relative pb-5 px-5" style={{"paddingTop":"15px"}}>
           {selected && <img className="h-5 w-5 absolute top-2 right-2" src="../../assets/images/Checkmark.svg" alt="checkmark"/>} 
           <div className="p-1">
             <img

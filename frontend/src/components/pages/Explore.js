@@ -2,40 +2,32 @@ import { React, useEffect, useState }from "react";
 import { useUserAuth } from "../authentication/context/UserAuthContext";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router";
+import ExplorePartners from "../ExplorePartners/ExplorePartners";
+import {Grid} from "@mui/material";
 
 import { collection, getDocs, getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../authentication/firebaseConfig"
+import ExploreCharities from "../ExploreCharities/ExploreCharities";
 
 const Explore = () => {
-  const navigate = useNavigate();
-  var partners = new Set();
-  var charities = new Set();
 
-  const getPartners = async () => {
-    const querySnapshot = await getDocs(collection(db, "partners"));
-    partners.clear();
-    querySnapshot.forEach((doc) => {
-      partners.add(doc.data());
-    });
-    console.log(partners);
-  }
-
-  const getCharities = async () => {
-    const querySnapshot = await getDocs(collection(db, "charities"));
-    charities.clear();
-    querySnapshot.forEach((doc) => {
-      charities.add(doc.data());
-    });
-    console.log(charities);
-  }
-
-  getPartners();
-  getCharities();
+  
 
   return (
     <>
-      <h1>Partners</h1>
-      <div>The following companies are matching donations this month. Shop here to double your impact!</div>
+      
+      <div className="bg-backdrop h-screen">
+        <Grid className="w-4/5 mx-auto h-2/5 pt-10 text-left" style={{maxWidth: 750}}>
+          <h1 className="font-title text-3xl text-primary">Partners</h1>
+          <p className="font-body text-lg text-typeface">The following companies are matching donations this month. Shop here to double your impact!</p>
+          <ExplorePartners/>
+          <br/><br/>
+          <h1 className="font-title text-3xl text-primary">Browse Charities</h1>
+          <ExploreCharities/>
+          <ExploreCharities/>
+        </Grid>
+      </div>
+      
     </>
   );
 };

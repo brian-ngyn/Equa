@@ -11,7 +11,6 @@ import ImpactCard from "../ImpactCard/ImpactCard";
 
 const DashboardDetails = (props) => {
   const { user } = props;
-
   const [impacts, setImpacts] = useState([]);
 
   const getActivities= async (user_charities) => {
@@ -19,7 +18,6 @@ const DashboardDetails = (props) => {
     user_charities.forEach(async (charity) => {
       const activites = await getDocs(query(collection(db, "activities"), where("charity_name", "==", charity)));
       activites.forEach((activity) => {
-        console.log("I", activity.data());
         setImpacts((prev) => [...prev, activity.data()]);
       });
     })
